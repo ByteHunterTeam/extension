@@ -1,0 +1,238 @@
+{
+  "welcome": {
+    "message": "欢迎使用ByteHunter",
+    "description": ""
+  },
+  "becomeVIP": {
+    "message": "成为会员享受全部服务",
+    "description": ""
+  },
+  "lowRiskTip": {
+    "message": "低风险提示",
+    "description": ""
+  },
+  "quickStartTitle": {
+    "message": "快速开始",
+    "description": ""
+  },
+  "quickStartDesc": {
+    "message": "支持从事前「风险监测」到事中「风险提醒」到事后「被盗资产追踪」，以及钱包授权检测、资产安全检测等多项功能",
+    "description": ""
+  },
+  "dashboardTitle": {
+    "message": "使用说明",
+    "description": ""
+  },
+  "dashboardDesc": {
+    "message": "通过官方的示例网站快速了解并学会如何使用ByteHunter保护您的每一次链上交互",
+    "description": ""
+  },
+  "funcTitle": {
+    "message": "支持功能",
+    "description": ""
+  },
+  "func1": {
+    "message": "转账风险识别",
+    "description": ""
+  },
+  "func1Tag": {
+    "message": "检测转账对象是否可信",
+    "description": ""
+  },
+  "func2": {
+    "message": "签名内容解析",
+    "description": ""
+  },
+  "func2Tag": {
+    "message": "动态检测签名内容",
+    "description": ""
+  },
+  "func3": {
+    "message": "恶意授权检测",
+    "description": ""
+  },
+  "func3Tag": {
+    "message": "针对不可靠合约/账户授权进行检测",
+    "description": ""
+  },
+  "func4": {
+    "message": "钓鱼网站识别",
+    "description": ""
+  },
+  "func4Tag": {
+    "message": "侦测当前网站是否为钓鱼网站",
+    "description": ""
+  },
+  "func5": {
+    "message": "SWAP攻击识别",
+    "description": ""
+  },
+  "func5Tag": {
+    "message": "针对DEX合约交互进行防御",
+    "description": ""
+  },
+  "func6": {
+    "message": "NFT攻击识别",
+    "description": ""
+  },
+  "func6Tag": {
+    "message": "零元购、订单伪造等攻击识别",
+    "description": ""
+  },
+  "mainTip": {
+    "message": "ByteHunter不会以任何方式收集您的私钥",
+    "description": ""
+  },
+  "transferring": {
+    "message": "正在转移以下资产",
+    "description": ""
+  },
+  "receiver": {
+    "message": "接收方",
+    "description": ""
+  },
+  "aiAnalysis": {
+    "message": "AI智能分析结果",
+    "description": ""
+  },
+  "resultReference": {
+    "message": "结果仅供参考",
+    "description": ""
+  },
+  "warning": {
+    "message": "警告！",
+    "description": ""
+  },
+  "extensionID": {
+    "message": "插件ID：",
+    "description": ""
+  },
+  "riskExtension": {
+    "message": "经检测为风险插件，请立即卸载",
+    "description": ""
+  },
+  "phishingWebsite": {
+    "message": "该网站经检测为钓鱼网站",
+    "description": ""
+  },
+  "reject": {
+    "message": "拒绝",
+    "description": ""
+  },
+  "continue": {
+    "message": "继续",
+    "description": ""
+  },
+  "lowLevel": {
+    "message": "低风险",
+    "description": ""
+  },
+  "midLevel": {
+    "message": "中风险",
+    "description": ""
+  },
+  "highLevel": {
+    "message": "高风险",
+    "description": ""
+  },
+  "unknownLevel": {
+    "message": "未知",
+    "description": ""
+  },
+  "you": {
+    "message": "您",
+    "description": ""
+  },
+  "analyzing": {
+    "message": "分析中",
+    "description": ""
+  },
+  "approvel": {
+    "message": "授权",
+    "description": ""
+  },
+  "transfer": {
+    "message": "转移",
+    "description": ""
+  },
+  "total_price": {
+    "message": "合计价格",
+    "description": ""
+  },
+  "unknown_price": {
+    "message": "待计算",
+    "description": ""
+  },
+  "sending": {
+    "message": "正在转移",
+    "description": ""
+  },
+  "receiving": {
+    "message": "您将得到",
+    "description": ""
+  },
+  "permit": {
+    "message": "授权对象",
+    "description": ""
+  },
+  "related_assets": {
+    "message": "关联资产",
+    "description": ""
+  },
+  "timeout": {
+    "message": "服务器错误，请注意风险",
+    "description": ""
+  },
+  "feedback": {
+    "message": "结果有问题？点这反馈！",
+    "description": ""
+  },
+  "feedback_title": {
+    "message": "反馈",
+    "description": ""
+  },
+  "feedback_placeholder": {
+    "message": "请输入反馈",
+    "description": ""
+  },
+  "submit": {
+    "message": "提交",
+    "description": ""
+  },
+  "cancel": {
+    "message": "取消",
+    "description": ""
+  },
+  "warning_text": {
+    "message": "反馈不能为空",
+    "description": ""
+  },
+  "success_text": {
+    "message": "成功",
+    "description": ""
+  },
+  "popup_feedback": {
+    "message": "遇到问题：点击反馈",
+    "description": ""
+  },
+  "high_risk_tip": {
+    "message": "您确定要继续交易吗？",
+    "description": ""
+  },
+  "empty_receive": {
+    "message": "您什么都没收到",
+    "description": ""
+  },
+  "contract": {
+    "message": "合约",
+    "description": ""
+  },
+  "contract_name": {
+    "message": "合约名称",
+    "description": ""
+  },
+  "signature": {
+    "message": "签名信息",
+    "description": ""
+  }
+}

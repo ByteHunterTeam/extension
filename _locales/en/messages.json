@@ -1,0 +1,238 @@
+{
+  "welcome": {
+    "message": "Welcome to ByteHunter",
+    "description": ""
+  },
+  "becomeVIP": {
+    "message": "Become a member to enjoy all services",
+    "description": ""
+  },
+  "lowRiskTip": {
+    "message": "Low-risk popup",
+    "description": ""
+  },
+  "quickStartTitle": {
+    "message": "Quick Start",
+    "description": ""
+  },
+  "quickStartDesc": {
+    "message": "Support from 「risk monitoring」 beforehand to 「risk alert」 during the event to 「stolen asset tracking」 afterwards, as well as wallet authorization detection, asset security detection and many other functions",
+    "description": ""
+  },
+  "dashboardTitle": {
+    "message": "Instructions for use",
+    "description": ""
+  },
+  "dashboardDesc": {
+    "message": "Quickly understand and learn how to use ByteHunter to protect your every on-chain interaction with the official example site",
+    "description": ""
+  },
+  "funcTitle": {
+    "message": "Supports",
+    "description": ""
+  },
+  "func1": {
+    "message": "Transfer Risk Identification",
+    "description": ""
+  },
+  "func1Tag": {
+    "message": "Checking the trustworthiness of the transferee",
+    "description": ""
+  },
+  "func2": {
+    "message": "Signature Content Analysis",
+    "description": ""
+  },
+  "func2Tag": {
+    "message": "Dynamic detection of signature content",
+    "description": ""
+  },
+  "func3": {
+    "message": "Malicious Sign Detection",
+    "description": ""
+  },
+  "func3Tag": {
+    "message": "Detection for contracts/account authorization",
+    "description": ""
+  },
+  "func4": {
+    "message": "Phishing site identification",
+    "description": ""
+  },
+  "func4Tag": {
+    "message": "Detects whether the current website is a phishing website",
+    "description": ""
+  },
+  "func5": {
+    "message": "SWAP attack identification",
+    "description": ""
+  },
+  "func5Tag": {
+    "message": "Defending against DEX contract interactions",
+    "description": ""
+  },
+  "func6": {
+    "message": "NFT attack identification",
+    "description": ""
+  },
+  "func6Tag": {
+    "message": "Zero purchase, order forgery and other attacks identification",
+    "description": ""
+  },
+  "mainTip": {
+    "message": "ByteHunter does not collect your private key in any way",
+    "description": ""
+  },
+  "transferring": {
+    "message": "Transferring the following assets",
+    "description": ""
+  },
+  "receiver": {
+    "message": "Receiver",
+    "description": ""
+  },
+  "aiAnalysis": {
+    "message": "AI analysis results",
+    "description": ""
+  },
+  "resultReference": {
+    "message": "For reference only",
+    "description": ""
+  },
+  "warning": {
+    "message": "Warning!",
+    "description": ""
+  },
+  "extensionID": {
+    "message": "Extension ID:",
+    "description": ""
+  },
+  "riskExtension": {
+    "message": "Detected as a risk extension, please uninstall it immediately",
+    "description": ""
+  },
+  "phishingWebsite": {
+    "message": "This website has been detected as a phishing website",
+    "description": ""
+  },
+  "reject": {
+    "message": "Reject",
+    "description": ""
+  },
+  "continue": {
+    "message": "Continue",
+    "description": ""
+  },
+  "lowLevel": {
+    "message": "Low risk",
+    "description": ""
+  },
+  "midLevel": {
+    "message": "Medium risk",
+    "description": ""
+  },
+  "highLevel": {
+    "message": "High risk",
+    "description": ""
+  },
+  "unknownLevel": {
+    "message": "unknown",
+    "description": ""
+  },
+  "you": {
+    "message": "you",
+    "description": ""
+  },
+  "analyzing": {
+    "message": "Analyzing",
+    "description": ""
+  },
+  "approvel": {
+    "message": "Approve",
+    "description": ""
+  },
+  "transfer": {
+    "message": "Transfer",
+    "description": ""
+  },
+  "total_price": {
+    "message": "Total",
+    "description": ""
+  },
+  "unknown_price": {
+    "message": "To be calculated",
+    "description": ""
+  },
+  "sending": {
+    "message": "Sending",
+    "description": ""
+  },
+  "receiving": {
+    "message": "Receiving",
+    "description": ""
+  },
+  "permit": {
+    "message": "Permit To",
+    "description": ""
+  },
+  "related_assets": {
+    "message": "Related",
+    "description": ""
+  },
+  "timeout": {
+    "message": "Server error, please pay attention to the risk",
+    "description": ""
+  },
+  "feedback": {
+    "message": "Problem? Click here!",
+    "description": ""
+  },
+  "feedback_title": {
+    "message": "Feedback",
+    "description": ""
+  },
+  "feedback_placeholder": {
+    "message": "Please enter feedback",
+    "description": ""
+  },
+  "submit": {
+    "message": "submit",
+    "description": ""
+  },
+  "cancel": {
+    "message": "cancel",
+    "description": ""
+  },
+  "warning_text": {
+    "message": "Feedback cannot be empty",
+    "description": ""
+  },
+  "success_text": {
+    "message": "success",
+    "description": ""
+  },
+  "popup_feedback": {
+    "message": "Encountered a problem: Give us feedback",
+    "description": ""
+  },
+  "high_risk_tip": {
+    "message": "Are you sure you want to continue ?",
+    "description": ""
+  },
+  "empty_receive": {
+    "message": "You will receive nothing",
+    "description": ""
+  },
+  "contract": {
+    "message": "Contract",
+    "description": ""
+  },
+  "contract_name": {
+    "message": "Contract Name",
+    "description": ""
+  },
+  "signature": {
+    "message": "Signature",
+    "description": ""
+  }
+}
