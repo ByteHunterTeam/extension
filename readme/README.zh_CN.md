@@ -11,7 +11,7 @@ ByteHunter保护您的每一次链上交互，识别潜在的风险并主动拦�
 5. NFT零元购检测
 6. **超过99%的钓鱼行为识别**
 7. ......................
-   ![extension](https://assets.bytehunter.site/image/extension.jpeg "image")
+![extension](./images/Extension.jpeg "image")
 
 ## 目录结构
 - _locales【多语言国际化】

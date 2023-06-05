@@ -13,7 +13,7 @@ You can download it from the [Chrome Store](https://chrome.google.com/webstore/d
 5. NFT $0 Purchase Identification
 6. **Over 99% phishing recognition**
 7. ......................
-![extension](https://assets.bytehunter.site/image/extension.jpeg "image")
+![extension](./readme/images/Extension.jpeg "image")
 
 
 ## Catalog Structure
