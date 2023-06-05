@@ -1,4 +1,4 @@
-# ByteHunter
+# 🛡ByteHunter
 ByteHunter保护您的每一次链上交互，识别潜在的风险并主动拦截风险，防患于未然。
 <br>
 你可以在[Chrome商店](https://chrome.google.com/webstore/detail/bytehunter/kidhkonioajdkjglffdlojnnlpdbeeol)直接下载该插件使用
