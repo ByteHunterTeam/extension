@@ -10,7 +10,7 @@ chrome.runtime.onMessage.addListener(async function (msg) {
             type: 'popup',
             width: 500,
             height: 800,
-            top: 10,
+            top: 150,
             left: 10,
         }, (window) => {
             console.log('background', msg)
