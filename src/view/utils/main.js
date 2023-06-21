@@ -45,3 +45,27 @@ export const handleAddr = (addr) => {
     }
     return addr.substring(0, 5) + "..." + addr.substring(38.42)
 }
+
+export const handleBigNumber = (amountStr) => {
+    const amount = parseFloat(amountStr);
+    let symbol = '';
+    switch (true) {
+        case amount >= 1e15:
+            return chrome.i18n.getMessage('all');
+        case amount >= 1e12:
+            symbol = "T"
+            break;
+        case amount >= 1e9:
+            symbol = "B"
+            break;
+        default:
+            return parseFloat(amountStr);
+    }
+
+    if (symbol === "T") {
+        return `${(amount / 1e12).toFixed(2)}${symbol}`
+    }
+    if (symbol === "B") {
+        return `${(amount / 1e9).toFixed(2)}${symbol}`
+    }
+}

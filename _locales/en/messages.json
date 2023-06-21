@@ -234,5 +234,9 @@
   "signature": {
     "message": "Signature",
     "description": ""
+  },
+  "all": {
+    "message": "ALL",
+    "description": ""
   }
 }

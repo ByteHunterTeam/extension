@@ -25,7 +25,7 @@
                                     <div>{{ props.params.data.type === 0 ? '授权' : '转移' }}</div>
                                     <div class="flex items-center ml-1">
                                         <div>{{
-                                            props.params.data.asset_info.amount ? parseFloat(props.params.data.asset_info.amount) : ''
+                                            props.params.data.asset_info.amount ? handleBigNumber(props.params.data.asset_info.amount) : ''
                                             }}
                                         </div>
                                         <div class="ml-1">
@@ -47,7 +47,7 @@
                                     <div>{{ props.params.data.type === 0 ? 'Approving' : 'Transferring' }}</div>
                                     <div class="flex items-center ml-1">
                                         <div>{{
-                                            props.params.data.asset_info.amount ? parseFloat(props.params.data.asset_info.amount) : ''
+                                            props.params.data.asset_info.amount ? handleBigNumber(props.params.data.asset_info.amount) : ''
                                             }}
                                         </div>
                                         <div class="ml-1">
@@ -109,7 +109,7 @@
 <script setup>
 import {orderBy} from "lodash-es";
 import {IconCheck, IconClose, IconExclamation} from "@arco-design/web-vue/es/icon";
-import {checkAddr, useDefaultImage,handleAddr} from "@/view/utils/main";
+import {checkAddr, useDefaultImage, handleAddr, handleBigNumber} from "@/view/utils/main";
 
 const chrome = window.chrome
 const navigator = window.navigator
