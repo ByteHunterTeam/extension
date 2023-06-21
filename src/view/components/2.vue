@@ -34,7 +34,7 @@
                     </a-list-item-meta>
                     <template #actions>
                         <div class="text-xl font-bold">
-                            {{ parseFloat(parseFloat(item.amount).toFixed(10)) }}
+                            {{ handleBigNumber(parseFloat(item.amount).toFixed(10)) }}
                         </div>
                     </template>
                 </a-list-item>
@@ -61,7 +61,7 @@
                         </a-list-item-meta>
                         <template #actions>
                             <div class="text-xl font-bold">{{
-                                parseFloat(parseFloat(item.amount).toFixed(10))
+                                handleBigNumber(parseFloat(item.amount).toFixed(10))
                                 }}
                             </div>
                         </template>
@@ -82,7 +82,7 @@
 import {isEmpty} from "lodash-es";
 import emptyJson from "@/assets/lottie/empty.json";
 import {Vue3Lottie} from "vue3-lottie";
-import {useDefaultImage,handleAddr,checkAddr} from "@/view/utils/main";
+import {useDefaultImage, handleAddr, checkAddr, handleBigNumber} from "@/view/utils/main";
 
 const chrome = window.chrome
 const navigator = window.navigator

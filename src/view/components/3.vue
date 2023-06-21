@@ -6,7 +6,7 @@
                 <div class="flex flex-col items-center">
                     <div class="text-lg text-black font-bold">${{ props.params.data.sending.symbol_id }}</div>
                     <div class="text-base text-yellow-500 truncate">
-                        {{ parseFloat(props.params.data.sending.amount) }}
+                        {{ handleBigNumber(props.params.data.sending.amount) }}
                     </div>
                 </div>
             </div>
@@ -18,7 +18,7 @@
                 <div class="flex flex-col items-center">
                     <div class="text-lg text-black font-bold">${{ props.params.data.receive.symbol_id }}</div>
                     <div class="text-base text-yellow-500">{{
-                        parseFloat(props.params.data.receive.amount)
+                        handleBigNumber(props.params.data.receive.amount)
                         }}
                     </div>
                 </div>
@@ -38,6 +38,8 @@
 </template>
 
 <script setup>
+
+import {handleBigNumber} from "../utils/main";
 
 const props = defineProps({
     params: {type: Object}

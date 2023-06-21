@@ -234,5 +234,9 @@
   "signature": {
     "message": "签名信息",
     "description": ""
+  },
+  "all": {
+    "message": "全部",
+    "description": ""
   }
 }
