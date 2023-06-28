@@ -1,5 +1,5 @@
-import {recognize} from "@/entry/api";
 import {base_url} from "@/consts/consts";
+import {recognize} from "@/entry/api";
 
 chrome.runtime.onMessage.addListener(async function (msg) {
     if (msg.type === 'popup') {
@@ -19,21 +19,8 @@ chrome.runtime.onMessage.addListener(async function (msg) {
     }
 
     if (msg.type === "params" && msg.params) {
-
-        chrome.storage.sync.get(["wallet"], function (data) {
-            msg.params.body.user_address = data.wallet
-            // chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-            //     const tab = tabs[0];
-            //     console.log("Tab", tab)
-            //     const url = tab.url;
-            //     console.log("URL", url)
-            // });
-            const params = JSON.stringify(msg.params.body)
-
-            recognize(base_url + msg.params.end_url, params, msg.uuid, msg.chainId)
-
-        });
-
+        const params = JSON.stringify(msg.params.body)
+        recognize(base_url + msg.params.end_url, params, msg.uuid, msg.chainId)
     }
 });
 
