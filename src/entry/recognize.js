@@ -62,8 +62,12 @@ async function RecognizeTransaction(chainId, argArray) {
 
     responseObj.body.website = window.location.host
 
-   return responseObj
+    const res = await window.ethereum.request({
+        method: 'eth_requestAccounts',
+    })
+    responseObj.body.user_address = res[0]
 
+    return responseObj
 }
 
 export {RecognizeTransaction}
