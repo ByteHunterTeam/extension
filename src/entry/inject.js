@@ -60,7 +60,11 @@ function continueRequest(metamaskRequest, ethereumRequestArguments, resolve, rej
         .then((data) => {
             resolve(data);
             if (type === 1) {
-                networkId = data;
+                if (data.startsWith('0x')) {
+                    networkId = data;
+                } else {
+                    networkId = '0x' + Number(data).toString(16);
+                }
                 sessionStorage.setItem('network', networkId)
             }
         })
@@ -81,7 +85,7 @@ if (window.okxwallet) {
                 if (method.includes(ethereumRequestArguments.method)) {
                     // console.log('拦截到了',ethereumRequestArguments)
                     postEvent(metamaskRequest, ethereumRequestArguments, resolve, reject).then(() => {})
-                } else if (ethereumRequestArguments.method === 'eth_chainId') {
+                } else if (ethereumRequestArguments.method === 'eth_chainId' || ethereumRequestArguments.method === 'net_version') {
                     // type为 1 获取chainId，0待定
                     continueRequest(metamaskRequest, ethereumRequestArguments, resolve, reject, 1)
                 } else {
@@ -185,16 +189,16 @@ if (window.okxwallet) {
         const metamaskRequest = window.ethereum.request;
         const customRequest = ({ ...ethereumRequestArguments }) => {
             return new Promise((resolve, reject) => {
-                // console.log('sdfa', ethereumRequestArguments)
+                // console.log('sdfa', ethereumRequestArguments.method)
                 if (!supportNetwork.includes(sessionStorage.getItem('network'))) {
                     continueRequest(metamaskRequest, ethereumRequestArguments, resolve, reject, 0)
                     return;
                 }
 
                 if (method.includes(ethereumRequestArguments.method)) {
-                    console.log('拦截到了',ethereumRequestArguments)
+                    // console.log('拦截到了',ethereumRequestArguments)
                     postEvent(metamaskRequest, ethereumRequestArguments, resolve, reject).then(() => {})
-                } else if (ethereumRequestArguments.method === 'eth_chainId') {
+                } else if (ethereumRequestArguments.method === 'eth_chainId' || ethereumRequestArguments.method === 'net_version') {
                     // type为 1 获取chainId，0待定
                     continueRequest(metamaskRequest, ethereumRequestArguments, resolve, reject, 1)
                 } else {
@@ -362,7 +366,9 @@ if (window.postMessage) {
 
 // network change
 if (window.ethereum && window.ethereum.request) {
+    // console.log('能监听到吗')
     window.ethereum.on('chainChanged', (res) => {
+        // console.log('可以', res)
         sessionStorage.setItem('network', res)
     })
 }
