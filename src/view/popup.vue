@@ -251,7 +251,7 @@ const login = () => {
 }
 
 const jumpToDoc = () => {
-  window.open('https://doc.bytehunter.site/docs/guide/extension.html')
+  window.open('https://doc.bytehunter.xyz/docs/guide/extension.html')
 }
 const jumpToFeedback = () => {
   window.open('https://console.bytehunter.site/#/feedback')

@@ -151,11 +151,11 @@ chrome.runtime.onInstalled.addListener(async (details) => {
     const lang = chrome.i18n.getUILanguage()
     if (lang === 'zh-CN') {
         chrome.tabs.create({
-            url: 'https://doc.bytehunter.site/docs/guide/extension.html#三、开始使用',
+            url: 'https://doc.bytehunter.xyz/docs/guide/extension.html#三、开始使用',
         })
     } else if (lang === 'en') {
         chrome.tabs.create({
-            url: 'https://doc.bytehunter.site/docs/guide/extension.html#三、start-using',
+            url: 'https://doc.bytehunter.xyz/docs/guide/extension.html#三、start-using',
         })
     }
     await initExtension()
