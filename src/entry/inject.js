@@ -1,5 +1,6 @@
 import {RecognizeTransaction} from "@/entry/recognize";
 import {ethErrors} from 'eth-rpc-errors';
+import {isEmpty} from "lodash-es";
 
 let networkId = '0x1';
 let proxyInterval;
@@ -496,7 +497,7 @@ const proxyAllEthereumProviders = () => {
     if (!window.ethereum) return;
     clearInterval(proxyInterval);
 
-    if (window.ethereum) {
+    if (!isEmpty(window.ethereum)) {
         proxyEthereumProvider(window.ethereum);
     }
 
@@ -506,11 +507,11 @@ const proxyAllEthereumProviders = () => {
     // });
 
     // Proxy the window.coinbaseWalletExtension provider if it exists
-    else if (window.coinbaseWalletExtension) {
+    else if (!isEmpty(window.coinbaseWalletExtension)) {
         proxyEthereumProvider(window.coinbaseWalletExtension);
     }
 
-    else if (window.okxwallet) {
+    else if (!isEmpty(window.okxwallet)) {
         proxyEthereumProvider(window.okxwallet);
     }
 
