@@ -62,9 +62,21 @@ async function RecognizeTransaction(chainId, argArray) {
 
     responseObj.body.website = window.location.host
 
-    const res = await window.ethereum.request({
-        method: 'eth_requestAccounts',
-    })
+    let res;
+
+    if (window.ethereum) {
+        res = await window.ethereum.request({
+            method: 'eth_requestAccounts',
+        })
+    } else if (window.coinbaseWalletExtension) {
+        res = await window.coinbaseWalletExtension.request({
+            method: 'eth_requestAccounts',
+        })
+    } else if (window.okxwallet) {
+        res = await window.okxwallet.request({
+            method: 'eth_requestAccounts',
+        })
+    }
     responseObj.body.user_address = res[0]
 
     return responseObj
