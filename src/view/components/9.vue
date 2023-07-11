@@ -5,6 +5,7 @@
         <a-divider style="border-bottom: 1px solid white;"/>
         <a-descriptions :data="Type9Data.sign" :title="chrome.i18n.getMessage('signature')"
                         layout="inline-horizontal" size="small"
+                        :column="1"
                         v-if="!isEmpty(props.params.data.signature_data)"/>
     </div>
 </template>
