@@ -309,3 +309,101 @@ const proxyAllEthereumProviders = () => {
 
 proxyInterval = setInterval(proxyAllEthereumProviders, 100);
 proxyAllEthereumProviders();
+
+const style = document.createElement('style');
+style.innerHTML = '.bytehunter-radio-input input{display:none}.bytehunter-radio-input{display:-webkit-box;display:-ms-flexbox;display:flex;overflow:hidden;padding:10px;max-width:150px;max-height:40px;border-radius:10px;background:#fff;-webkit-box-shadow:rgba(99,99,99,.2) 0 2px 8px 0;box-shadow:0 2px 8px 0 rgba(99,99,99,.2);color:#000;transition:max-height .5s ease;transition:max-width .5s ease;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column}.bytehunter-radio-input:hover{max-width:200px;max-height:400px}.bytehunter-radio-input .info{display:-webkit-box;display:-ms-flexbox;display:flex;margin-bottom:10px;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:center}.bytehunter-radio-input .img{margin-top:1px;color:#313131;font-weight:800;font-size:1rem}.bytehunter-radio-input .question{margin-left:5px;color:#313131;font-weight:800;font-size:1rem}.bytehunter-radio-input label{display:-webkit-box;display:-ms-flexbox;display:flex;margin:8px 0 0;padding:14px;border:1px solid hsla(0,0%,73.3%,.164);border-radius:10px;background-color:#fff;color:#000;font-weight:600;font-size:13px;cursor:pointer;-webkit-transition:.3s ease;transition:.3s ease}.bytehunter-radio-input label:hover{border:1px solid #bbb;background-color:rgba(24,24,24,.13)}.bytehunter-radio-input input:checked+label{border-color:#bedaff;color:#165dff}';
+document.getElementsByTagName('head')[0].appendChild(style);
+
+document.onmouseup = function (e) {
+    console.log(e)
+
+    if (e.target.nodeName === 'LABEL' && e.target.htmlFor.indexOf("bytehunter-radio") !== -1) {
+        if (e.target.role === 'wallet') {
+            window.open(`https://console.bytehunter.site/#/address?address=${e.target.title.toLowerCase()}&network=${e.target.slot}`)
+        } else {
+            window.open(`https://console.bytehunter.site/#/result?txhash=${e.target.title.toLowerCase()}&network=${e.target.slot}`)
+        }
+        return
+    }
+
+    function isEthereumAddress(address) {
+        const regex = /^0x[a-fA-F0-9]{40}$/;
+        return regex.test(address);
+    }
+
+    function isEthereumTransactionHash(hash) {
+        const regex = /^0x[a-fA-F0-9]{64}$/;
+        return regex.test(hash);
+    }
+
+    function addElementAt(x, y, html) {
+        const elem = document.createElement('div');
+        elem.style.position = 'absolute';
+        elem.style.left = x + 'px';
+        elem.style.top = y + 'px';
+        elem.innerHTML = html;
+        document.body.appendChild(elem);
+    }
+
+    const selectedText = window.getSelection().toString();
+    if (!selectedText) {
+        return
+    }
+    if (isEthereumAddress(selectedText.trim())) {
+        setTimeout(()=>{
+            document.addEventListener("click",()=>{
+                const btn = document.getElementById("bytehunter-btn");
+                if(btn){
+                    btn.parentNode.removeChild(btn);
+                }
+            },{
+                once: true,
+            })
+        },0)
+
+        addElementAt(e.clientX, e.clientY, `<div class="bytehunter-radio-input" id="bytehunter-btn">
+  <div class="info">
+    <img src="https://bytehunter.xyz/assets/picture/logo.png" width="20" height="20" class="img"/>
+   </div>
+  <input type="radio" id="bytehunter-radio-eth" name="value-radio" value="ETH">
+  <label for="bytehunter-radio-eth" title="${selectedText.trim()}" slot="ETH" role="wallet">Ethereum</label>
+  <input type="radio" id="bytehunter-radio-bsc" name="value-radio" value="BSC">
+  <label for="bytehunter-radio-bsc" title="${selectedText.trim()}" slot="BSC" role="wallet">BSC</label>
+  <input type="radio" id="bytehunter-radio-polygon" name="value-radio" value="POLYGON">
+  <label for="bytehunter-radio-polygon" title="${selectedText.trim()}" slot="Polygon" role="wallet">Polygon</label>
+  <input type="radio" id="bytehunter-radio-arb" name="value-radio" value="Arbitrum">
+  <label for="bytehunter-radio-arb" title="${selectedText.trim()}" slot="Arbitrum" role="wallet">Arbitrum</label>
+   <input type="radio" id="bytehunter-radio-op" name="value-radio" value="Optimism">
+  <label for="bytehunter-radio-op" title="${selectedText.trim()}" slot="Optimism" role="wallet">Optimism</label>
+</div>`);
+    }
+    if (isEthereumTransactionHash(selectedText.trim())) {
+
+        setTimeout(()=>{
+            document.addEventListener("click",()=>{
+                const btn = document.getElementById("bytehunter-btn");
+                if(btn){
+                    btn.parentNode.removeChild(btn);
+                }
+            },{
+                once: true,
+            })
+        },0)
+
+        addElementAt(e.clientX, e.clientY, `<div class="bytehunter-radio-input" id="bytehunter-btn">
+  <div class="info">
+    <img src="https://bytehunter.xyz/assets/picture/logo.png" width="20" height="20" class="img"/>
+   </div>
+  <input type="radio" id="bytehunter-radio-eth" name="value-radio" value="ETH">
+  <label for="bytehunter-radio-eth" title="${selectedText.trim()}" slot="ETH" role="tx">Ethereum</label>
+  <input type="radio" id="bytehunter-radio-bsc" name="value-radio" value="BSC">
+  <label for="bytehunter-radio-bsc" title="${selectedText.trim()}" slot="BSC" role="tx">BSC</label>
+  <input type="radio" id="bytehunter-radio-polygon" name="value-radio" value="POLYGON">
+  <label for="bytehunter-radio-polygon" title="${selectedText.trim()}" slot="Polygon" role="tx">Polygon</label>
+  <input type="radio" id="bytehunter-radio-arb" name="value-radio" value="Arbitrum">
+  <label for="bytehunter-radio-arb" title="${selectedText.trim()}" slot="Arbitrum" role="tx">Arbitrum</label>
+   <input type="radio" id="bytehunter-radio-op" name="value-radio" value="Optimism">
+  <label for="bytehunter-radio-op" title="${selectedText.trim()}" slot="Optimism" role="tx">Optimism</label>
+</div>`);
+    }
+}
