@@ -1,11 +1,16 @@
 // 注入inject脚本
+import Browser from 'webextension-polyfill';
 
-var s = document.createElement('script');
-s.src = chrome.runtime.getURL('inject.js');
-s.onload = function () {
-    this.remove();
+const addScript = (url) => {
+    const container = document.head || document.documentElement;
+    const scriptTag = document.createElement('script');
+    scriptTag.setAttribute('async', 'false');
+    scriptTag.setAttribute('src', Browser.runtime.getURL(url));
+    container.appendChild(scriptTag);
+    scriptTag.onload = () => scriptTag.remove();
 };
-(document.head || document.documentElement).appendChild(s);
+
+addScript('inject.js');
 
 // 监听来自inject的消息
 window.addEventListener('ByteHunter-Message', (event) => {
