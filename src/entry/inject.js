@@ -315,7 +315,7 @@ style.innerHTML = '.bytehunter-radio-input input{display:none}.bytehunter-radio-
 document.getElementsByTagName('head')[0].appendChild(style);
 
 document.onmouseup = function (e) {
-    console.log(e)
+    // console.log(e)
 
     if (e.target.nodeName === 'LABEL' && e.target.htmlFor.indexOf("bytehunter-radio") !== -1) {
         if (e.target.role === 'wallet') {

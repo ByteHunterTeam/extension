@@ -26,6 +26,12 @@ window.addEventListener('ByteHunter-Message', (event) => {
 
 }, false)
 
+window.addEventListener('message', evt => {
+    if (evt.data.from === 'ByteHunter') {
+        chrome.runtime.sendMessage({'wallet': evt.data.message, 'type': 'login'})
+    }
+})
+
 chrome.storage.local.onChanged.addListener(res => {
     if (res.confirm) {
         console.log("确认", res)

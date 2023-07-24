@@ -22,6 +22,10 @@ chrome.runtime.onMessage.addListener(async function (msg) {
         const params = JSON.stringify(msg.params.body)
         recognize(base_url + msg.params.end_url, params, msg.uuid, msg.chainId)
     }
+
+    if (msg.type === 'login') {
+        chrome.storage.sync.set({'wallet': msg.wallet})
+    }
 });
 
 const CHROME_MALICIOUS_EXTENSION_ORIGINAL_DATA = [
