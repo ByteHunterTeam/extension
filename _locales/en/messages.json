@@ -238,5 +238,21 @@
   "all": {
     "message": "ALL",
     "description": ""
+  },
+  "popup_ai": {
+    "message": "Start Web3 AI dialogue",
+    "description": ""
+  },
+  "ai_title": {
+    "message": "Web3 Security AI",
+    "description": ""
+  },
+  "ai_tips": {
+    "message": "You can ask me any questions related to Web3 security!",
+    "description": ""
+  },
+  "ai_placeholder": {
+    "message": "Enter your question",
+    "description": ""
   }
 }

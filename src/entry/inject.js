@@ -349,6 +349,10 @@ document.onmouseup = function (e) {
     if (!selectedText) {
         return
     }
+
+
+    const scrollX = document.documentElement.scrollLeft || document.body.scrollLeft;
+    const scrollY = document.documentElement.scrollTop || document.body.scrollTop;
     if (isEthereumAddress(selectedText.trim())) {
         setTimeout(()=>{
             document.addEventListener("click",()=>{
@@ -361,7 +365,7 @@ document.onmouseup = function (e) {
             })
         },0)
 
-        addElementAt(e.clientX, e.clientY, `<div class="bytehunter-radio-input" id="bytehunter-btn">
+        addElementAt(e.clientX + scrollX, e.clientY + scrollY, `<div class="bytehunter-radio-input" id="bytehunter-btn">
   <div class="info">
     <img src="https://bytehunter.xyz/assets/picture/logo.png" width="20" height="20" class="img"/>
    </div>
@@ -390,7 +394,7 @@ document.onmouseup = function (e) {
             })
         },0)
 
-        addElementAt(e.clientX, e.clientY, `<div class="bytehunter-radio-input" id="bytehunter-btn">
+        addElementAt(e.clientX + scrollX, e.clientY + scrollY, `<div class="bytehunter-radio-input" id="bytehunter-btn">
   <div class="info">
     <img src="https://bytehunter.xyz/assets/picture/logo.png" width="20" height="20" class="img"/>
    </div>

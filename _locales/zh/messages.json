@@ -238,5 +238,21 @@
   "all": {
     "message": "全部",
     "description": ""
+  },
+  "popup_ai": {
+    "message": "开启Web3 AI对话",
+    "description": ""
+  },
+  "ai_title": {
+    "message":  "Web3安全AI",
+    "description": ""
+  },
+  "ai_tips": {
+    "message":  "有任何Web3安全相关的问题都可以向我提问！",
+    "description": ""
+  },
+  "ai_placeholder": {
+    "message": "输入你的问题",
+    "description": ""
   }
 }

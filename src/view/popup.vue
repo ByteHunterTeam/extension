@@ -1,43 +1,80 @@
 <template>
+
   <div class="main_app">
-    <nav
-        class="relative flex w-full flex-wrap items-center justify-between bg-white py-3 text-neutral-500 shadow hover:text-neutral-700 focus:text-neutral-700 dark:bg-neutral-600">
-      <div class="flex w-full flex-wrap items-center justify-between px-6">
-        <div class="flex items-center justify-between w-full">
-          <div class="flex items-center">
-            <img src="src/assets/logo.png" width="20"/>
-            <a
-                class="text-lg font-semibold text-neutral-800 dark:text-neutral-200 ml-1"
-            >ByteHunter</a
-            >
+    <!--  AI页面-->
+    <div class="flex-1 p:2 sm:p-6 justify-between flex flex-col" v-if="showAI">
+      <div class="flex sm:items-center justify-between py-3 border-b-2 border-gray-200 p-2">
+        <div class="relative flex items-center space-x-4">
+          <div class="relative">
+            <img src="/src/assets/logo.png" alt="" class="w-10 sm:w-16 h-10 sm:h-16 rounded-full">
           </div>
-          <div class="flex items-center">
-            <svg t="1677400387475" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                 p-id="15858" width="20" height="20">
-              <path
-                  d="M0 0m365.714286 0l292.571428 0q365.714286 0 365.714286 365.714286l0 292.571428q0 365.714286-365.714286 365.714286l-292.571428 0q-365.714286 0-365.714286-365.714286l0-292.571428q0-365.714286 365.714286-365.714286Z"
-                  fill="#6386FA" opacity=".1" p-id="15859"></path>
-              <path
-                  d="M219.428571 274.285714m73.142858 0l438.857142 0q73.142857 0 73.142858 73.142857l0 329.142858q0 73.142857-73.142858 73.142857l-438.857142 0q-73.142857 0-73.142858-73.142857l0-329.142858q0-73.142857 73.142858-73.142857Z"
-                  fill="#6386FA" p-id="15860"></path>
-              <path
-                  d="M493.714286 420.571429h237.714285v182.857142h-237.714285a91.428571 91.428571 0 0 1-91.428572-91.428571 91.428571 91.428571 0 0 1 91.428572-91.428571z"
-                  fill="#FFFFFF" p-id="15861"></path>
-              <path
-                  d="M493.714286 512m-54.857143 0a54.857143 54.857143 0 1 0 109.714286 0 54.857143 54.857143 0 1 0-109.714286 0Z"
-                  fill="#6386FA" p-id="15862"></path>
-            </svg>
-            <div class="text-gray-700">
-              {{ wallet.substring(0, 4) + '...' + wallet.substring(38, 42) }}
+          <div class="flex flex-col leading-tight">
+            <div class="text-lg mt-1 flex items-center">
+              <span class="text-gray-700 mr-3">ByteHunter</span>
+            </div>
+            <span class="text-base text-gray-600">{{chrome.i18n.getMessage("ai_title")}}</span>
+          </div>
+        </div>
+        <div class="flex items-center space-x-2">
+          <button type="button" class="inline-flex items-center justify-center rounded-lg border h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none" @click="showAI = false">
+            <svg t="1690163760291" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="16917" width="20" height="20"><path d="M900.4 424.87c19.47 0 37.03-11.73 44.49-29.73 7.46-17.98 3.33-38.7-10.43-52.48L713.97 122.19c-7.3-7.3-19.12-7.3-26.42 0l-41.69 41.69c-7.3 7.3-7.3 19.13 0 26.42l138.28 138.27H86.32c-10.19 0-18.46 8.26-18.46 18.46v59.39c0 10.19 8.26 18.46 18.46 18.46H900.4zM937.65 598.72H123.8c-19.47 0-37.03 11.73-44.49 29.73-7.46 17.98-3.33 38.7 10.43 52.48l220.49 220.48c7.3 7.3 19.12 7.3 26.42 0l41.69-41.69c7.3-7.3 7.3-19.13 0-26.42L240.06 695.02h697.59c10.32 0 18.68-8.37 18.68-18.68v-58.93c0-10.32-8.36-18.69-18.68-18.69z" p-id="16918" fill="#515151"></path></svg>
+          </button>
+        </div>
+      </div>
+      <div id="messages" class="flex flex-col space-y-4 p-3 scrolling-touch overflow-y-auto">
+        <div class="chat-message">
+          <div class="flex items-end">
+            <div class="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start">
+              <div><span class="px-4 py-2 rounded-lg inline-block rounded-bl-none bg-gray-100 text-gray-600">{{chrome.i18n.getMessage("ai_tips")}}</span></div>
+            </div>
+            <img src="/src/assets/logo.png" alt="My profile" class="w-6 h-6 rounded-full order-1">
+          </div>
+        </div>
+        <div class="chat-message">
+          <div class="flex items-end justify-end">
+            <div class="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-1 items-end">
+              <div><span class="px-4 py-2 rounded-lg inline-block rounded-br-none bg-blue-600 text-white ">私钥泄漏怎么办</span></div>
             </div>
           </div>
         </div>
       </div>
-    </nav>
-    <div class="p-4 bg-main">
-      <div class="flex items-center justify-between">
-        <div class="text-xl font-bold">🎉{{ chrome.i18n.getMessage("welcome") }}</div>
-        <button class="btn-share">
+      <div class="border-t-2 border-gray-200 px-4 pt-4 mb-2 sm:mb-0">
+        <div class="relative flex items-center">
+          <input type="text" :placeholder="chrome.i18n.getMessage('ai_placeholder')" class="w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 bg-gray-200 rounded-l-md pl-2 py-3">
+          <div class="items-center">
+            <button type="button" class="inline-flex items-center justify-center rounded-r-md px-4 py-2 transition duration-500 ease-in-out text-white bg-blue-500 hover:bg-blue-400 focus:outline-none">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-6 w-6 transform rotate-90">
+                <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<!--    主页面-->
+    <div v-else>
+      <nav
+          class="relative flex w-full flex-wrap items-center justify-between bg-white py-3 text-neutral-500 shadow hover:text-neutral-700 focus:text-neutral-700 dark:bg-neutral-600">
+        <div class="flex w-full flex-wrap items-center justify-between px-6">
+          <div class="flex items-center justify-between w-full">
+            <div class="flex items-center">
+              <img src="src/assets/logo.png" width="20"/>
+              <a
+                  class="text-lg font-semibold text-neutral-800 dark:text-neutral-200 ml-1"
+              >ByteHunter</a
+              >
+            </div>
+            <div class="flex items-center">
+
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div class="p-4 bg-main">
+        <div class="flex items-center justify-between">
+          <div class="text-xl font-bold">🎉{{ chrome.i18n.getMessage("welcome") }}</div>
+          <button class="btn-share">
   <span class="btn-text">Media</span
   ><span class="btn-icon">
     <svg
@@ -57,153 +94,112 @@
       ></path>
     </svg>
   </span>
-          <ul class="social-icons">
-            <li>
-              <a href="https://twitter.com/ByteHunter_team" target="_blank"
-              >
-                <img src="src/assets/twitter.svg" width="25"/>
-              </a>
-            </li>
+            <ul class="social-icons">
               <li>
-                  <a href="https://t.me/bytehunter_space" target="_blank"
-                  >
-                      <img src="src/assets/telegram.svg" width="25"/>
-                  </a>
+                <a href="https://twitter.com/ByteHunter_team" target="_blank"
+                >
+                  <img src="src/assets/twitter.svg" width="25"/>
+                </a>
               </li>
               <li>
-                  <a href="https://discord.gg/Ds8Jxm95G9" target="_blank"
-                  >
-                      <img src="src/assets/discord.svg" width="25"/>
-                  </a>
+                <a href="https://t.me/bytehunter_space" target="_blank"
+                >
+                  <img src="src/assets/telegram.svg" width="25"/>
+                </a>
               </li>
-          </ul>
-        </button>
-      </div>
-      <div id="isLogin">
-        <div
-            @click="jumpToFeedback"
-            class="my-4 rounded-lg bg-gradient-to-r from-green-400 to-blue-500 py-4 px-6 text-base text-white font-bold cursor-pointer hover:shadow-lg">
-          {{ chrome.i18n.getMessage('popup_feedback') }} ->
+              <li>
+                <a href="https://discord.gg/Ds8Jxm95G9" target="_blank"
+                >
+                  <img src="src/assets/discord.svg" width="25"/>
+                </a>
+              </li>
+            </ul>
+          </button>
         </div>
-        <div class="flex justify-center mt-4">
+        <div>
           <div
-              @click="jumpToQuickStart"
-              class="block max-w-sm rounded-lg bg-white p-4 shadow dark:bg-neutral-700 cursor-pointer hover:shadow-lg">
-            <h5
-                class="mb-2 text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50">
-              ⚡️{{ chrome.i18n.getMessage("quickStartTitle") }}
-            </h5>
-            <p class="mb-4 text-base text-neutral-600 dark:text-neutral-200">
-              {{ chrome.i18n.getMessage("quickStartDesc") }}
-            </p>
-          </div>
-        </div>
-        <div class="flex justify-center mt-4">
-          <div
-              @click="jumpToDoc"
-              class="block max-w-sm rounded-lg bg-white p-4 shadow dark:bg-neutral-700 cursor-pointer hover:shadow-lg">
-            <h5
-                class="mb-2 text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50">
-                📋{{ chrome.i18n.getMessage("dashboardTitle") }}
-            </h5>
-            <p class="mb-4 text-base text-neutral-600 dark:text-neutral-200">
-              {{ chrome.i18n.getMessage("dashboardDesc") }}
-            </p>
-          </div>
-        </div>
-        <div class="flex items-center">
-          <div class="text-xl font-bold mt-4 mb-2">📌{{ chrome.i18n.getMessage('funcTitle') }}</div>
-        </div>
-        <div v-for="(item,index) in funcList" :key="index">
-          <a-list :border="false">
-              <a-list-item>
-                  <div>
-                      <div class="text-base font-bold">{{ item.title }}</div>
-                      <div class="text-gray-700">「{{ item.tag }}」</div>
-                  </div>
-              </a-list-item>
-          </a-list>
-        </div>
-
-        <div class="mt-2">
-          <div class="flex items-center">
-            <div class="text-xl font-bold mt-4 mb-2">🔰{{ chrome.i18n.getMessage("mainTip") }}</div>
-          </div>
-        </div>
-      </div>
-
-      <div id="needLogin">
-        <div class="my-4 rounded-lg bg-white py-4 px-6 text-base text-black font-bold cursor-pointer hover:shadow-lg"
-             @click="login">
-          <div class="flex items-center justify-center">
-            <div>
-              <svg t="1677221211401" class="icon" viewBox="0 0 1086 1024" version="1.1"
-                   xmlns="http://www.w3.org/2000/svg" p-id="33968" width="25" height="25">
-                <path d="M1024 31.030303l-409.6 300.993939L688.872727 155.151515 1024 31.030303z" fill="#E17726"
-                      p-id="33969"></path>
-                <path
-                    d="M83.781818 31.030303l403.39394 304.09697L415.806061 155.151515 83.781818 31.030303zM878.157576 732.315152l-108.606061 164.460606 232.727273 65.163636 65.163636-226.521212-189.284848-3.10303zM40.339394 735.418182L105.50303 961.939394l232.727273-65.163636-108.606061-164.460606-189.284848 3.10303z"
-                    fill="#E27625" p-id="33970"></path>
-                <path
-                    d="M325.818182 449.939394l-65.163637 96.193939 229.624243 9.309091-6.206061-248.242424-158.254545 142.739394zM781.963636 449.939394L620.606061 307.2l-6.206061 251.345455 229.624242-9.309091-62.060606-99.29697zM338.230303 896.775758l139.636364-68.266667-121.018182-93.090909-18.618182 161.357576zM629.915152 828.509091l139.636363 68.266667-18.618182-161.357576-121.018181 93.090909z"
-                    fill="#E27625" p-id="33971"></path>
-                <path
-                    d="M769.551515 896.775758l-139.636363-68.266667 12.412121 89.987879v37.236363l127.224242-58.957575zM338.230303 896.775758l130.327273 62.060606v-37.236364l12.412121-89.987879-142.739394 65.163637z"
-                    fill="#D5BFB2" p-id="33972"></path>
-                <path
-                    d="M468.557576 676.460606l-114.812121-34.133333 80.678787-37.236364 34.133334 71.369697zM636.121212 676.460606l34.133333-71.369697 80.678788 37.236364-114.812121 34.133333z"
-                    fill="#233447" p-id="33973"></path>
-                <path
-                    d="M338.230303 896.775758l18.618182-164.460606-127.224243 3.10303 108.606061 161.357576zM747.830303 732.315152l18.618182 164.460606 108.60606-161.357576-127.224242-3.10303zM847.127273 549.236364l-229.624243 9.309091 21.721212 117.915151 34.133334-71.369697 80.678788 37.236364 93.090909-93.090909zM353.745455 642.327273l80.678787-37.236364 34.133334 71.369697 21.721212-117.915151-229.624243-9.309091 93.09091 93.090909z"
-                    fill="#CC6228" p-id="33974"></path>
-                <path
-                    d="M260.654545 549.236364l96.19394 189.284848-3.10303-93.090909-93.09091-96.193939zM754.036364 642.327273l-3.103031 93.090909 96.19394-189.284849-93.090909 96.19394zM490.278788 558.545455l-21.721212 117.915151 27.927272 139.636364 6.206061-183.078788-12.412121-74.472727zM614.4 558.545455l-12.412121 74.472727 6.20606 183.078788 27.927273-139.636364-21.721212-117.915151z"
-                    fill="#E27525" p-id="33975"></path>
-                <path
-                    d="M636.121212 676.460606l-27.927273 139.636364 18.618182 12.412121 121.018182-93.090909 3.10303-93.090909-114.812121 34.133333zM353.745455 642.327273l3.10303 93.090909 121.018182 93.090909 18.618181-12.412121-27.927272-139.636364-114.812121-34.133333z"
-                    fill="#F5841F" p-id="33976"></path>
-                <path
-                    d="M639.224242 958.836364v-37.236364l-9.30909-9.309091h-155.151516l-9.309091 9.309091v37.236364l-127.224242-62.060606 46.545455 37.236363 89.987878 62.060606h158.254546l93.090909-62.060606 43.442424-37.236363-130.327273 62.060606z"
-                    fill="#C0AC9D" p-id="33977"></path>
-                <path
-                    d="M629.915152 828.509091l-18.618182-12.412121H496.484848l-18.618181 12.412121-12.412122 89.987879 9.309091-9.309091h155.151516l9.30909 9.309091-9.30909-89.987879z"
-                    fill="#161616" p-id="33978"></path>
-                <path
-                    d="M1039.515152 353.745455L1073.648485 186.181818l-52.751515-155.151515-390.981818 291.684849 152.048484 127.224242 214.109091 62.060606 46.545455-55.854545-21.721212-12.412122 34.133333-31.030303-24.824242-18.618182 34.133333-24.824242-24.824242-15.515151zM31.030303 186.181818l34.133333 167.563637-21.721212 15.515151 34.133334 24.824242-24.824243 18.618182 34.133333 31.030303-21.721212 15.515152 46.545455 55.854545 214.109091-62.060606 152.048485-127.224242L83.781818 31.030303 31.030303 186.181818z"
-                    fill="#763E1A" p-id="33979"></path>
-                <path
-                    d="M996.072727 512l-214.109091-62.060606 65.163637 96.193939-96.19394 189.284849 127.224243-3.10303h189.284848l-71.369697-220.315152zM325.818182 449.939394l-214.109091 62.060606-71.369697 220.315152h189.284848l127.224243 3.10303-96.19394-189.284849 65.163637-96.193939zM614.4 558.545455l12.412121-235.830303 62.060606-167.563637h-276.169697l62.060606 167.563637 12.412122 235.830303 6.20606 74.472727v183.078788h114.812121v-183.078788l6.206061-74.472727z"
-                    fill="#F5841F" p-id="33980"></path>
-              </svg>
+              @click="showAI = true"
+              class="my-4 rounded-lg bg-gradient-to-r from-green-400 to-blue-500 p-2 text-base text-white font-bold cursor-pointer hover:shadow-lg flex items-center">
+            <div style="width: 50px;height: 50px">
+              <vue3-lottie :animation-data="AIJson"/>
             </div>
-            <div class="text-base font-bold ml-1">Connect To MetaMask</div>
+            <div class="ml-2">
+              {{ chrome.i18n.getMessage('popup_ai') }} ->
+            </div>
+          </div>
+          <div class="flex justify-center mt-4">
+            <div
+                @click="jumpToQuickStart"
+                class="block max-w-sm rounded-lg bg-white p-4 shadow dark:bg-neutral-700 cursor-pointer hover:shadow-lg">
+              <h5
+                  class="mb-2 text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50">
+                ⚡️{{ chrome.i18n.getMessage("quickStartTitle") }}
+              </h5>
+              <p class="mb-4 text-base text-neutral-600 dark:text-neutral-200">
+                {{ chrome.i18n.getMessage("quickStartDesc") }}
+              </p>
+            </div>
+          </div>
+          <div class="flex justify-center mt-4">
+            <div
+                @click="jumpToDoc"
+                class="block max-w-sm rounded-lg bg-white p-4 shadow dark:bg-neutral-700 cursor-pointer hover:shadow-lg">
+              <h5
+                  class="mb-2 text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50">
+                📋{{ chrome.i18n.getMessage("dashboardTitle") }}
+              </h5>
+              <p class="mb-4 text-base text-neutral-600 dark:text-neutral-200">
+                {{ chrome.i18n.getMessage("dashboardDesc") }}
+              </p>
+            </div>
+          </div>
+          <div class="flex items-center">
+            <div class="text-xl font-bold mt-4 mb-2">📌{{ chrome.i18n.getMessage('funcTitle') }}</div>
+          </div>
+          <div v-for="(item,index) in funcList" :key="index">
+            <a-list :border="false">
+              <a-list-item>
+                <div>
+                  <div class="text-base font-bold">{{ item.title }}</div>
+                  <div class="text-gray-700">「{{ item.tag }}」</div>
+                </div>
+              </a-list-item>
+            </a-list>
+          </div>
+
+          <div class="mt-2">
+            <div class="flex items-center">
+              <div class="text-xl font-bold mt-4 mb-2">🔰{{ chrome.i18n.getMessage("mainTip") }}</div>
+            </div>
           </div>
         </div>
+
+
+        <footer
+            class="bg-transparent text-center lg:text-left">
+          <div class="p-4 text-center text-neutral-700 dark:text-neutral-200">
+            © 2023 Copyright:
+            <a
+                class="text-neutral-800 dark:text-neutral-400"
+                href="https://bytehunter.site"
+            >ByteHunter</a
+            >
+          </div>
+        </footer>
       </div>
-
-
-      <footer
-          class="bg-transparent text-center lg:text-left">
-        <div class="p-4 text-center text-neutral-700 dark:text-neutral-200">
-          © 2023 Copyright:
-          <a
-              class="text-neutral-800 dark:text-neutral-400"
-              href="https://bytehunter.site"
-          >ByteHunter</a
-          >
-        </div>
-      </footer>
     </div>
   </div>
 </template>
 
 <script setup>
-import {onMounted, ref} from "vue";
-import createMetaMaskProvider from "metamask-extension-provider"
+import {ref} from "vue";
+import {Vue3Lottie} from "vue3-lottie";
+import AIJson from "/src/assets/lottie/AI.json"
 
 const chrome = window.chrome
 const showConfirm = ref(false)
 const wallet = ref("")
+const showAI = ref(false);
 // const lowRiskTip = ref(true)
 
 const funcList = Object.freeze([
@@ -233,22 +229,22 @@ const funcList = Object.freeze([
   }
 ])
 
-const login = () => {
-  const provider = createMetaMaskProvider()
-  provider.request({
-    method: 'eth_requestAccounts',
-  }).then(res => {
-    console.log(res)
-    const account = res[0]
-    document.getElementById("needLogin").style.display = "none"
-    document.getElementById("isLogin").style.display = "block"
-    chrome.storage.sync.set({'wallet': account}, function () {
-      // 通知保存完成。
-      console.log("完成")
-      showConfirm.value = true
-    });
-  })
-}
+// const login = () => {
+//   const provider = createMetaMaskProvider()
+//   provider.request({
+//     method: 'eth_requestAccounts',
+//   }).then(res => {
+//     console.log(res)
+//     const account = res[0]
+//     document.getElementById("needLogin").style.display = "none"
+//     document.getElementById("isLogin").style.display = "block"
+//     chrome.storage.sync.set({'wallet': account}, function () {
+//       // 通知保存完成。
+//       console.log("完成")
+//       showConfirm.value = true
+//     });
+//   })
+// }
 
 const jumpToDoc = () => {
   window.open('https://doc.bytehunter.xyz/docs/guide/extension.html')
@@ -264,20 +260,6 @@ const jumpToQuickStart = () => {
 // const changeLowRiskTip = (e) => {
 //   chrome.storage.sync.set({"showLowRiskPopup": e})
 // }
-
-onMounted(async () => {
-  chrome.storage.sync.get(["wallet"], function (data) {
-    if (data.wallet) {
-      document.getElementById("needLogin").style.display = "none"
-    } else {
-      document.getElementById("isLogin").style.display = "none"
-    }
-    wallet.value = data.wallet
-  });
-  // chrome.storage.sync.get(["showLowRiskPopup"], function (data) {
-  //    lowRiskTip.value = data.showLowRiskPopup ? data.showLowRiskPopup : chrome.storage.sync.set({"showLowRiskPopup": true})
-  // });
-})
 </script>
 
 <style lang="scss">
@@ -390,5 +372,30 @@ onMounted(async () => {
       }
     }
   }
+}
+
+.scrollbar-w-2::-webkit-scrollbar {
+  width: 0.25rem;
+  height: 0.25rem;
+}
+
+.scrollbar-track-blue-lighter::-webkit-scrollbar-track {
+  --bg-opacity: 1;
+  background-color: #f7fafc;
+  background-color: rgba(247, 250, 252, var(--bg-opacity));
+}
+
+.scrollbar-thumb-blue::-webkit-scrollbar-thumb {
+  --bg-opacity: 1;
+  background-color: #edf2f7;
+  background-color: rgba(237, 242, 247, var(--bg-opacity));
+}
+
+.scrollbar-thumb-rounded::-webkit-scrollbar-thumb {
+  border-radius: 0.25rem;
+}
+
+#messages {
+  height: 400px;
 }
 </style>
