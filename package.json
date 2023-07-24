@@ -13,6 +13,7 @@
     "copy-webpack-plugin": "^11.0.0",
     "core-js": "^3.8.3",
     "eth-rpc-errors": "^4.0.3",
+    "event-source-polyfill": "^1.0.31",
     "lodash": "^4.17.21",
     "lodash-es": "^4.17.21",
     "metamask-extension-provider": "^3.0.0",

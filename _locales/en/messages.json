@@ -254,5 +254,17 @@
   "ai_placeholder": {
     "message": "Enter your question",
     "description": ""
+  },
+  "regenerate": {
+    "message": "Regenerate response",
+    "description": ""
+  },
+  "chat_fail": {
+    "message": "Request failed, please try again",
+    "description": ""
+  },
+  "stop": {
+    "message": "Stop",
+    "description": ""
   }
 }

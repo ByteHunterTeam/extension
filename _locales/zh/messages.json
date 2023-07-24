@@ -254,5 +254,17 @@
   "ai_placeholder": {
     "message": "输入你的问题",
     "description": ""
+  },
+  "regenerate": {
+    "message": "重新生成",
+    "description": ""
+  },
+  "chat_fail": {
+    "message": "请求失败，请重试",
+    "description": ""
+  },
+  "stop": {
+    "message": "停止",
+    "description": ""
   }
 }
