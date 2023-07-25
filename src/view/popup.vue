@@ -115,10 +115,10 @@
                     d="M493.714286 512m-54.857143 0a54.857143 54.857143 0 1 0 109.714286 0 54.857143 54.857143 0 1 0-109.714286 0Z"
                     fill="#6386FA" p-id="15862"></path>
               </svg>
-              <div class="text-gray-700" id="isLogin">
+              <div class="text-gray-700" v-if="isLogin">
                 {{ wallet.substring(0, 4) + '...' + wallet.substring(38, 42) }}
               </div>
-              <div class="text-gray-700" id="needLogin">
+              <div class="text-gray-700" v-else>
                 Connect To Wallet
               </div>
             </div>
@@ -263,6 +263,7 @@ const chatInput = ref('');
 let eventSource = reactive({});
 let lang = chrome.i18n.getUILanguage()
 const chatId = ref('')
+const isLogin = ref(false)
 
 const funcList = Object.freeze([
   {
@@ -417,11 +418,7 @@ const showAIFunc = () => {
 
 onMounted(async () => {
   chrome.storage.sync.get(["wallet"], function (data) {
-    if (data.wallet) {
-      document.getElementById('needLogin').style.display = 'none'
-    } else {
-      document.getElementById('isLogin').style.display = 'none'
-    }
+    isLogin.value = !!data.wallet;
     wallet.value = data.wallet
   });
 })
