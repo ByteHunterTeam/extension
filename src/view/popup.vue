@@ -2,7 +2,7 @@
 
   <div class="main_app">
     <!--  AI页面-->
-    <div class="flex-1 p:2 sm:p-6 justify-between flex flex-col" v-if="showAI">
+    <div class="flex-1 p:2 sm:p-6 justify-between flex flex-col" id="showAI">
       <div class="flex sm:items-center justify-between py-3 border-b-2 border-gray-200 p-2">
         <div class="relative flex items-center space-x-4">
           <div class="relative">
@@ -16,7 +16,7 @@
           </div>
         </div>
         <div class="flex items-center space-x-2">
-          <button type="button" class="inline-flex items-center justify-center rounded-lg border h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none" @click="showAI = false">
+          <button type="button" class="inline-flex items-center justify-center rounded-lg border h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none" @click="hideAI">
             <svg t="1690163760291" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="16917" width="20" height="20"><path d="M900.4 424.87c19.47 0 37.03-11.73 44.49-29.73 7.46-17.98 3.33-38.7-10.43-52.48L713.97 122.19c-7.3-7.3-19.12-7.3-26.42 0l-41.69 41.69c-7.3 7.3-7.3 19.13 0 26.42l138.28 138.27H86.32c-10.19 0-18.46 8.26-18.46 18.46v59.39c0 10.19 8.26 18.46 18.46 18.46H900.4zM937.65 598.72H123.8c-19.47 0-37.03 11.73-44.49 29.73-7.46 17.98-3.33 38.7 10.43 52.48l220.49 220.48c7.3 7.3 19.12 7.3 26.42 0l41.69-41.69c7.3-7.3 7.3-19.13 0-26.42L240.06 695.02h697.59c10.32 0 18.68-8.37 18.68-18.68v-58.93c0-10.32-8.36-18.69-18.68-18.69z" p-id="16918" fill="#515151"></path></svg>
           </button>
         </div>
@@ -87,7 +87,7 @@
     </div>
 
 <!--    主页面-->
-    <div v-else>
+    <div id="showMain">
       <nav
           class="relative flex w-full flex-wrap items-center justify-between bg-white py-3 text-neutral-500 shadow hover:text-neutral-700 focus:text-neutral-700 dark:bg-neutral-600">
         <div class="flex w-full flex-wrap items-center justify-between px-6">
@@ -115,10 +115,10 @@
                     d="M493.714286 512m-54.857143 0a54.857143 54.857143 0 1 0 109.714286 0 54.857143 54.857143 0 1 0-109.714286 0Z"
                     fill="#6386FA" p-id="15862"></path>
               </svg>
-              <div class="text-gray-700" v-if="isLogin">
+              <div class="text-gray-700" id="isLogin">
                 {{ wallet.substring(0, 4) + '...' + wallet.substring(38, 42) }}
               </div>
-              <div class="text-gray-700" v-else>
+              <div class="text-gray-700" id="needLogin">
                 Connect To Wallet
               </div>
             </div>
@@ -255,7 +255,6 @@ import { EventSourcePolyfill } from 'event-source-polyfill';
 const chrome = window.chrome
 // const showConfirm = ref(false)
 const wallet = ref("")
-const showAI = ref(false);
 // const lowRiskTip = ref(true)
 const AIChatList = reactive([]);
 const isGenerating = ref(false);
@@ -263,7 +262,6 @@ const chatInput = ref('');
 let eventSource = reactive({});
 let lang = chrome.i18n.getUILanguage()
 const chatId = ref('')
-const isLogin = ref(false)
 
 const funcList = Object.freeze([
   {
@@ -412,13 +410,31 @@ const resetChat = () => {
   eventSource.close();
 };
 const showAIFunc = () => {
-  showAI.value = true;
+  document.getElementById('showMain').style.display = 'none'
+  document.getElementById('showAI').style.display = 'flex'
   scrollChat();
+};
+const hideAI = () => {
+  document.getElementById('showAI').style.display = 'none';
+  document.getElementById('showMain').style.display = ''
+  chrome.storage.sync.get(["wallet"], function (data) {
+    if (data.wallet) {
+      document.getElementById('needLogin').style.display = 'none'
+    } else {
+      document.getElementById('isLogin').style.display = 'none'
+    }
+    wallet.value = data.wallet
+  });
 };
 
 onMounted(async () => {
+  document.getElementById('showAI').style.display = 'none'
   chrome.storage.sync.get(["wallet"], function (data) {
-    isLogin.value = !!data.wallet;
+    if (data.wallet) {
+      document.getElementById('needLogin').style.display = 'none'
+    } else {
+      document.getElementById('isLogin').style.display = 'none'
+    }
     wallet.value = data.wallet
   });
 })
