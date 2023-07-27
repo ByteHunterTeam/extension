@@ -266,5 +266,9 @@
   "stop": {
     "message": "Stop",
     "description": ""
+  },
+  "contract_info_title": {
+    "message": "Contract",
+    "description": ""
   }
 }

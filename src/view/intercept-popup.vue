@@ -1,149 +1,143 @@
 <template>
-    <div :class="loading ? 'bg-gray-800' : 'bg-gray-800'">
-        <div class="gradient" v-if="!loading && !showTimeout"></div>
-        <div style="min-height: 100vh;z-index: 10" class="flex items-center justify-center"
-             v-if="loading && !showTimeout">
-            <div class="flex flex-col items-center">
-                <div class="loader">
-                    <span></span>
-                </div>
-                <div class="text-lg text-white mt-2 font-bold">{{ chrome.i18n.getMessage("analyzing") }}</div>
-            </div>
+  <div :class="loading ? 'bg-gray-800' : 'bg-gray-800'">
+    <div class="gradient" v-if="!loading && !showTimeout"></div>
+    <div style="min-height: 100vh;z-index: 10" class="flex items-center justify-center"
+         v-if="loading && !showTimeout">
+      <div class="flex flex-col items-center">
+        <div class="loader">
+          <span></span>
         </div>
-        <div style="min-height: 100vh;z-index: 10" class="flex items-center justify-center" v-if="showTimeout">
-            <a-result status="500" :subtitle="chrome.i18n.getMessage('timeout')">
-            </a-result>
-        </div>
-        <div class="h-full text-white" v-if="!loading && !showTimeout" style="min-height: 100vh;">
-            <nav
-                    class="relative flex w-full flex-wrap items-center justify-between bg-transparent py-3 text-neutral-500 shadow hover:text-neutral-700">
-                <div class="flex w-full flex-wrap items-center justify-between px-6" style="z-index: 10">
-                    <div class="flex items-center justify-between w-full">
-                        <div class="flex items-center">
-                            <img src="src/assets/logo.png" width="25"/>
-                            <a
-                                    class="text-lg font-semibold text-white ml-1"
-                            >ByteHunter</a
-                            >
-                        </div>
-                        <div class="flex items-center">
-                            <div class="cursor-pointer" @click="openUrl('https://twitter.com/ByteHunter_team')">
-                                <img src="/src/assets/twitter.svg" width="25"/>
-                            </div>
-                            <div class="cursor-pointer ml-2" @click="openUrl('https://t.me/bytehunter_space')">
-                                <img src="/src/assets/telegram.svg" width="25"/>
-                            </div>
-                            <div class="cursor-pointer ml-2" @click="openUrl('https://discord.gg/Ds8Jxm95G9')">
-                                <img src="/src/assets/discord-1.svg" width="25"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-
-            <div class="w-full p-4 h-full relative select-none" style="z-index: 10">
-                <div class="flex flex-col items-center justify-center" v-if="params.risk_level">
-                    <div v-if="params.risk_level === 1">
-                        <Vue3Lottie :animationData="successJson" :height="180" :width="180" :loop="false"/>
-                    </div>
-                    <div v-if="params.risk_level === 2">
-                        <Vue3Lottie :animationData="warningJson" :height="180" :width="180"/>
-                    </div>
-                    <div v-if="params.risk_level === 3">
-                        <Vue3Lottie :animationData="errorJson" :height="180" :width="180"/>
-                    </div>
-                    <div v-if="params.risk_level === 4">
-                        <Vue3Lottie :animationData="unknownJson" :height="180" :width="180" :loop="false"/>
-                    </div>
-                    <div class="text-2xl my-2 font-bold relative">
-                        {{ riskTitle[params.risk_level] }}
-                        <a-tooltip :content="chrome.i18n.getMessage('feedback')">
-                            <icon-question-circle-fill class="relative-svg cursor-pointer" size="25"
-                                                       @click="showFeedback=true"></icon-question-circle-fill>
-                        </a-tooltip>
-                    </div>
-                </div>
-                <div class="flex justify-center">
-                    <a-tag color="#0DA5AA" class="mx-2" v-if="netMap.hasOwnProperty(params.network)">
-                        <img :src="netMap[params.network].icon" width="16"/>
-                        <span class="font-bold pl-1">{{ netMap[params.network].name }} Chain</span></a-tag>
-                    <a-tag color="#165dff" v-if="![5,6].includes(params.type)">{{ params.method }}</a-tag>
-                </div>
-
-                <div class="mt-4 mb-2" v-if="params.tip">
-                    <a-alert v-if="params.tip.type === 1">{{ params.tip.value }}</a-alert>
-                    <a-alert v-if="params.tip.type === 2" type="success">{{ params.tip.value }}</a-alert>
-                    <a-alert v-if="params.tip.type === 3" type="warning">{{ params.tip.value }}</a-alert>
-                    <a-alert v-if="params.tip.type === 4" type="error">{{ params.tip.value }}</a-alert>
-                    <a-alert v-if="params.tip.type === 5" type="normal">
-                        <template #icon>
-                            <icon-exclamation-circle-fill/>
-                        </template>
-                        {{ params.tip.value }}
-                    </a-alert>
-                </div>
-
-                <div class="content">
-                    <page0 :params="params" v-if="params.type === 0"/>
-
-                    <div class="bg-white rounded-lg p-4 w-full break-words" v-if="params.type === 1">
-                        <div class="text-black">{{ params.data.message }}</div>
-                    </div>
-
-                    <page2 :params="params" v-if="params.type === 2"/>
-                    <page3 :params="params" v-if="params.type === 3"/>
-                    <page4 :params="params" v-if="params.type === 4"/>
-                    <page5 :params="params" v-if="params.type === 5"/>
-                    <page6 :params="params" v-if="params.type === 6"/>
-                    <page7 :params="params" v-if="params.type === 7"/>
-                    <page8 :params="params" v-if="params.type === 8"/>
-                    <page9 :params="params" v-if="params.type === 9"/>
-                </div>
-            </div>
-        </div>
+        <div class="text-lg text-white mt-2 font-bold">{{ chrome.i18n.getMessage("analyzing") }}</div>
+      </div>
     </div>
-
-    <a-drawer placement="top" :ok-text="chrome.i18n.getMessage('submit')"
-              :cancel-text="chrome.i18n.getMessage('cancel')" :visible="showFeedback"
-              @cancel="showFeedback=false" unmountOnClose @ok="submitFeedback">
-        <template #title>
-            {{ chrome.i18n.getMessage('feedback_title') }}
-        </template>
-        <a-textarea style="height: 100px" :placeholder="chrome.i18n.getMessage('feedback_placeholder')"
-                    v-model="feedback" auto-size/>
-    </a-drawer>
-
-    <div class="btn-group flex items-center justify-evenly p-4 bg-white btn-group-open" style="z-index: 100"
-    >
-        <div class="button-reject" style="width: 40%;border-radius: 10px;color: #0b0b0b" @click="cancel">
-            {{ chrome.i18n.getMessage("reject") }}
-        </div>
-        <div class="button-confirm" style="width: 40%;border-radius: 10px" @click="confirm"
-             v-if="params.risk_level === 1 || params.risk_level === 4">
-            {{ chrome.i18n.getMessage("continue") }}
-        </div>
-        <div class="button-confirm-warn" style="width: 40%;border-radius: 10px" @click="confirm"
-             v-if="params.risk_level === 2">
-            {{ chrome.i18n.getMessage("continue") }}
-        </div>
-        <div class="button-confirm" style="width: 40%;border-radius: 10px" @click="confirm" v-if="isEmpty(params)">
-            {{ chrome.i18n.getMessage("continue") }}
-        </div>
-        <a-popconfirm :content="chrome.i18n.getMessage('high_risk_tip')" @ok="confirm" ok-text="confirm"
-                      cancel-text="cancel">
-            <div class="button-confirm-risk" style="width: 40%;border-radius: 10px"
-                 v-if="params.risk_level === 3">
-                {{ chrome.i18n.getMessage("continue") }}
-            </div>
-        </a-popconfirm>
+    <div style="min-height: 100vh;z-index: 10" class="flex items-center justify-center" v-if="showTimeout">
+      <a-result status="500" :subtitle="chrome.i18n.getMessage('timeout')">
+      </a-result>
     </div>
+    <div class="h-full text-white" v-if="!loading && !showTimeout" style="min-height: 100vh;">
+      <nav
+          class="relative flex w-full flex-wrap items-center justify-between bg-transparent py-3 text-neutral-500 shadow hover:text-neutral-700">
+        <div class="flex w-full flex-wrap items-center justify-between px-6" style="z-index: 10">
+          <div class="flex items-center justify-between w-full">
+            <div class="flex items-center">
+              <img src="src/assets/logo.png" width="25"/>
+              <a
+                  class="text-lg font-semibold text-white ml-1"
+              >ByteHunter</a
+              >
+            </div>
+            <div class="flex items-center">
+              <div class="cursor-pointer" @click="openUrl('https://twitter.com/ByteHunter_team')">
+                <img src="/src/assets/twitter.svg" width="25"/>
+              </div>
+              <div class="cursor-pointer ml-2" @click="openUrl('https://t.me/bytehunter_space')">
+                <img src="/src/assets/telegram.svg" width="25"/>
+              </div>
+              <div class="cursor-pointer ml-2" @click="openUrl('https://discord.gg/Ds8Jxm95G9')">
+                <img src="/src/assets/discord-1.svg" width="25"/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <div class="w-full p-4 h-full relative select-none" style="z-index: 10">
+        <div class="flex flex-col items-center justify-center" v-if="params.risk_level">
+          <div v-if="params.risk_level === 1">
+            <Vue3Lottie :animationData="successJson" :height="180" :width="180" :loop="false"/>
+          </div>
+          <div v-if="params.risk_level === 2">
+            <Vue3Lottie :animationData="warningJson" :height="180" :width="180"/>
+          </div>
+          <div v-if="params.risk_level === 3">
+            <Vue3Lottie :animationData="errorJson" :height="180" :width="180"/>
+          </div>
+          <div v-if="params.risk_level === 4">
+            <Vue3Lottie :animationData="unknownJson" :height="180" :width="180" :loop="false"/>
+          </div>
+          <div class="text-2xl my-2 font-bold relative">
+            {{ riskTitle[params.risk_level] }}
+            <a-tooltip :content="chrome.i18n.getMessage('feedback')">
+              <icon-question-circle-fill class="relative-svg cursor-pointer" size="25"
+                                         @click="showFeedback=true"></icon-question-circle-fill>
+            </a-tooltip>
+          </div>
+        </div>
+        <div class="flex justify-center items-center">
+          <a-tag color="#0DA5AA" v-if="netMap.hasOwnProperty(params.network)">
+            <img :src="netMap[params.network].icon" width="16"/>
+            <span class="font-bold pl-1">{{ netMap[params.network].name }} Chain</span></a-tag>
+          <a-tag color="#165dff" class="mx-2" v-if="![5,6].includes(params.type)">{{ params.method }}</a-tag>
+          <a-tooltip content="gas" v-if="params.gas_fee">
+            <a-tag color="#ff5722" class="mt-1">
+              <template #icon>
+                <img src="/src/assets/gas.svg" width="16"/>
+              </template>
+              ≈ ${{ params.gas_fee }}
+            </a-tag>
+          </a-tooltip>
+        </div>
+
+        <div class="content">
+          <!--                    Alert-->
+
+          <div v-for="(item,index) in params.components" :key="index">
+            <tip :data="item.data" v-if="item.module === 'tip'" class="my-1"></tip>
+            <operation :data="item.data" v-if="item.module === 'operation'" :network="params.network"
+                       class="my-1"></operation>
+            <risk-list :data="item.data" v-if="item.module === 'risk_list'" class="my-1"></risk-list>
+            <msg :data="item.data" v-if="item.module === 'message'" class="my-1"></msg>
+            <describe :data="item.data" v-if="item.module === 'desc'" class="my-1"></describe>
+            <contract-info :data="item.data" v-if="item.module === 'contract_info'" class="my-1"
+                           :network="params.network"></contract-info>
+            <list :data="item.data" v-if="item.module === 'list'" class="my-1"></list>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a-drawer placement="top" :ok-text="chrome.i18n.getMessage('submit')"
+            :cancel-text="chrome.i18n.getMessage('cancel')" :visible="showFeedback"
+            @cancel="showFeedback=false" unmountOnClose @ok="submitFeedback">
+    <template #title>
+      {{ chrome.i18n.getMessage('feedback_title') }}
+    </template>
+    <a-textarea style="height: 100px" :placeholder="chrome.i18n.getMessage('feedback_placeholder')"
+                v-model="feedback" auto-size/>
+  </a-drawer>
+
+  <div class="btn-group flex items-center justify-evenly p-4 bg-white btn-group-open" style="z-index: 100"
+  >
+    <div class="button-reject" style="width: 40%;border-radius: 10px;color: #0b0b0b" @click="cancel">
+      {{ chrome.i18n.getMessage("reject") }}
+    </div>
+    <div class="button-confirm" style="width: 40%;border-radius: 10px" @click="confirm"
+         v-if="params.risk_level === 1 || params.risk_level === 4">
+      {{ chrome.i18n.getMessage("continue") }}
+    </div>
+    <div class="button-confirm-warn" style="width: 40%;border-radius: 10px" @click="confirm"
+         v-if="params.risk_level === 2">
+      {{ chrome.i18n.getMessage("continue") }}
+    </div>
+    <div class="button-confirm" style="width: 40%;border-radius: 10px" @click="confirm" v-if="isEmpty(params)">
+      {{ chrome.i18n.getMessage("continue") }}
+    </div>
+    <a-popconfirm :content="chrome.i18n.getMessage('high_risk_tip')" @ok="confirm" ok-text="confirm"
+                  cancel-text="cancel">
+      <div class="button-confirm-risk" style="width: 40%;border-radius: 10px"
+           v-if="params.risk_level === 3">
+        {{ chrome.i18n.getMessage("continue") }}
+      </div>
+    </a-popconfirm>
+  </div>
 </template>
 
 <script setup>
 import {onMounted, ref, computed, defineAsyncComponent} from "vue"
 import {
-    IconQuestionCircleFill,
-    IconExclamationCircleFill
+  IconQuestionCircleFill,
 } from '@arco-design/web-vue/es/icon';
 import {isEmpty} from "lodash-es"
 import axios from "axios"
@@ -156,15 +150,13 @@ import {Vue3Lottie} from 'vue3-lottie'
 import 'vue3-lottie/dist/style.css'
 import {netMap} from "@/view/utils/main";
 
-const Page0 = defineAsyncComponent(() => import("./components/0.vue"))
-const Page2 = defineAsyncComponent(() => import("./components/2.vue"))
-const Page3 = defineAsyncComponent(() => import("./components/3.vue"))
-const Page4 = defineAsyncComponent(() => import("./components/4.vue"))
-const Page5 = defineAsyncComponent(() => import("./components/5.vue"))
-const Page6 = defineAsyncComponent(() => import("./components/6.vue"))
-const Page7 = defineAsyncComponent(() => import("./components/7.vue"))
-const Page8 = defineAsyncComponent(() => import("./components/8.vue"))
-const Page9 = defineAsyncComponent(() => import("./components/9.vue"))
+const Tip = defineAsyncComponent(() => import("./components/tip.vue"))
+const Operation = defineAsyncComponent(() => import("./components/operation.vue"))
+const RiskList = defineAsyncComponent(() => import("./components/riskList.vue"))
+const Msg = defineAsyncComponent(() => import("./components/message.vue"))
+const Describe = defineAsyncComponent(() => import("./components/desc.vue"))
+const ContractInfo = defineAsyncComponent(() => import("./components/contractInfo.vue"))
+const List = defineAsyncComponent(() => import("./components/list.vue"))
 
 
 const params = ref({})
@@ -179,143 +171,143 @@ const feedback = ref('');
 
 
 const riskTitle = Object.freeze({
-    1: chrome.i18n.getMessage("lowLevel"),
-    2: chrome.i18n.getMessage("midLevel"),
-    3: chrome.i18n.getMessage("highLevel"),
-    4: chrome.i18n.getMessage("unknownLevel")
+  1: chrome.i18n.getMessage("lowLevel"),
+  2: chrome.i18n.getMessage("midLevel"),
+  3: chrome.i18n.getMessage("highLevel"),
+  4: chrome.i18n.getMessage("unknownLevel")
 })
 
 
 const lineColor = Object.freeze({
-    1: {
-        main: "#3fefba",
-        shadow: "drop-shadow(0 0 20px #3fefef) drop-shadow(0 0 60px #3fefef)"
-    },
-    2: {
-        main: "#F7BA1E",
-        shadow: "drop-shadow(0 0 20px #FADC6D) drop-shadow(0 0 60px #FADC6D)"
-    },
-    3: {
-        main: "#F53F3F",
-        shadow: "drop-shadow(0 0 20px #F76560) drop-shadow(0 0 60px #F76560)"
-    },
-    4: {
-        main: "#F2F3F5",
-        shadow: "drop-shadow(0 0 20px #F7F8FA) drop-shadow(0 0 60px #F7F8FA)"
-    }
+  1: {
+    main: "#3fefba",
+    shadow: "drop-shadow(0 0 20px #3fefef) drop-shadow(0 0 60px #3fefef)"
+  },
+  2: {
+    main: "#F7BA1E",
+    shadow: "drop-shadow(0 0 20px #FADC6D) drop-shadow(0 0 60px #FADC6D)"
+  },
+  3: {
+    main: "#F53F3F",
+    shadow: "drop-shadow(0 0 20px #F76560) drop-shadow(0 0 60px #F76560)"
+  },
+  4: {
+    main: "#F2F3F5",
+    shadow: "drop-shadow(0 0 20px #F7F8FA) drop-shadow(0 0 60px #F7F8FA)"
+  }
 })
 const currentLineMainColor = computed(() => {
-    if (params.value.risk_level) {
-        return lineColor[params.value.risk_level].main
-    } else {
-        return lineColor["1"].main
-    }
+  if (params.value.risk_level) {
+    return lineColor[params.value.risk_level].main
+  } else {
+    return lineColor["1"].main
+  }
 })
 const currentLineShadowColor = computed(() => {
-    if (params.value.risk_level) {
-        return lineColor[params.value.risk_level].shadow
-    } else {
-        return lineColor["1"].shadow
-    }
+  if (params.value.risk_level) {
+    return lineColor[params.value.risk_level].shadow
+  } else {
+    return lineColor["1"].shadow
+  }
 })
 
 const confirm = () => {
-    chrome.storage.local.get('window_id').then(res => {
-        console.log('popup', res)
-        chrome.storage.local.set({'confirm': res.window_id.uuid})
-    }).catch(err => {
-        console.log('popup', err)
-    })
-    chrome.storage.local.get('window_id').then(res => {
-        chrome.storage.local.set({"params": ""})
-        chrome.windows.remove(res.window_id.id)
-    })
+  chrome.storage.local.get('window_id').then(res => {
+    console.log('popup', res)
+    chrome.storage.local.set({'confirm': res.window_id.uuid})
+  }).catch(err => {
+    console.log('popup', err)
+  })
+  chrome.storage.local.get('window_id').then(res => {
+    chrome.storage.local.set({"params": ""})
+    chrome.windows.remove(res.window_id.id)
+  })
 }
 const cancel = () => {
-    chrome.storage.local.get('window_id').then(res => {
-        chrome.storage.local.set({"params": ""})
-        console.log(res)
-        chrome.storage.local.set({'cancel': res.window_id.uuid})
-        chrome.windows.remove(res.window_id.id)
-    })
+  chrome.storage.local.get('window_id').then(res => {
+    chrome.storage.local.set({"params": ""})
+    console.log(res)
+    chrome.storage.local.set({'cancel': res.window_id.uuid})
+    chrome.windows.remove(res.window_id.id)
+  })
 }
 
 const openUrl = (url) => {
-    window.open(url)
+  window.open(url)
 }
 
 const submitFeedback = async () => {
-    if (feedback.value === '') {
-        Message.warning(chrome.i18n.getMessage('warning_text'))
-        return
-    }
+  if (feedback.value === '') {
+    Message.warning(chrome.i18n.getMessage('warning_text'))
+    return
+  }
 
-    const walletRes = await chrome.storage.sync.get('wallet')
-    console.log('storage', walletRes)
-    axios.post('https://backend.bytehunter.site/web3/v1/extensionFeedback/createExtensionFeedback', {
-        record_id: params.value.record_id,
-        address: walletRes.wallet,
-        content: feedback.value,
-    }).then(() => {
-        Message.success(chrome.i18n.getMessage('success_text'))
-        showFeedback.value = false;
-    })
+  const walletRes = await chrome.storage.sync.get('wallet')
+  console.log('storage', walletRes)
+  axios.post('https://backend.bytehunter.site/web3/v1/extensionFeedback/createExtensionFeedback', {
+    record_id: params.value.record_id,
+    address: walletRes.wallet,
+    content: feedback.value,
+  }).then(() => {
+    Message.success(chrome.i18n.getMessage('success_text'))
+    showFeedback.value = false;
+  })
 }
 
 onMounted(() => {
-    document.body.setAttribute('arco-theme', 'dark')
+  document.body.setAttribute('arco-theme', 'dark')
 
-    chrome.storage.local.get('params').then(res => {
-        if (res.params && res.params !== "") {
-            params.value = JSON.parse(res.params).data
-            console.log("res", params.value)
-            chrome.storage.local.set({"params": ""})
-            loading.value = false
-        }
-    })
+  chrome.storage.local.get('params').then(res => {
+    if (res.params && res.params !== "") {
+      params.value = JSON.parse(res.params).data
+      console.log("res", params.value)
+      chrome.storage.local.set({"params": ""})
+      loading.value = false
+    }
+  })
 
-    chrome.storage.local.get('detective_website').then(res => {
-        if (res.detective_website && res.detective_website !== "") {
-            params.value = JSON.parse(res.detective_website)
-            console.log("res-website", params.value)
-            chrome.storage.local.set({"detective_website": ""})
-            loading.value = false
-        }
-    })
+  chrome.storage.local.get('detective_website').then(res => {
+    if (res.detective_website && res.detective_website !== "") {
+      params.value = JSON.parse(res.detective_website)
+      console.log("res-website", params.value)
+      chrome.storage.local.set({"detective_website": ""})
+      loading.value = false
+    }
+  })
 
-    chrome.storage.local.get('malicious_extension').then(res => {
-        if (res.malicious_extension && res.malicious_extension !== "") {
-            params.value = res.malicious_extension
-            chrome.storage.local.set({"malicious_extension": ""})
-            loading.value = false
-        }
-    })
+  chrome.storage.local.get('malicious_extension').then(res => {
+    if (res.malicious_extension && res.malicious_extension !== "") {
+      params.value = res.malicious_extension
+      chrome.storage.local.set({"malicious_extension": ""})
+      loading.value = false
+    }
+  })
+
+  timeout.value && clearTimeout(timeout.value)
+  timeout.value = setTimeout(() => {
+    showTimeout.value = true;
+  }, 10000)
+  chrome.storage.local.onChanged.addListener(res => {
+    console.log('listen==>', res)
+    if (res.type) {
+      chrome.storage.local.get('params').then(res => {
+        if (!res.params) return;
+        params.value = JSON.parse(res.params).data
+        console.log("params", params.value)
+        chrome.storage.local.set({"params": ""})
+        loading.value = false;
+      })
+    }
 
     timeout.value && clearTimeout(timeout.value)
-    timeout.value = setTimeout(() => {
-        showTimeout.value = true;
-    }, 10000)
-    chrome.storage.local.onChanged.addListener(res => {
-        console.log('listen==>', res)
-        if (res.type) {
-            chrome.storage.local.get('params').then(res => {
-                if (!res.params) return;
-                params.value = JSON.parse(res.params).data
-                console.log("params", params.value)
-                chrome.storage.local.set({"params": ""})
-                loading.value = false;
-            })
-        }
-
-        timeout.value && clearTimeout(timeout.value)
-    })
+  })
 })
 
 </script>
 
 <style>
 .arco-list-split .arco-list-header, .arco-list-split .arco-list-item:not(:last-child) {
-    border-bottom: 1px solid rgba(255, 255, 255, 0) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0) !important;
 }
 </style>
 
