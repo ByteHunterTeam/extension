@@ -234,7 +234,7 @@
             © 2023 Copyright:
             <a
                 class="text-neutral-800 dark:text-neutral-400"
-                href="https://bytehunter.site"
+                href="https://bytehunter.xyz"
             >ByteHunter</a
             >
           </div>
@@ -295,7 +295,7 @@ const login = () => {
     lang = 'zh'
   }
   chrome.tabs.create({
-    url: `https://console.bytehunter.site/#/extension_login?lang=${lang}`,
+    url: `https://console.bytehunter.xyz/#/extension_login?lang=${lang}`,
   })
 }
 
@@ -303,11 +303,11 @@ const jumpToDoc = () => {
   window.open('https://doc.bytehunter.xyz/docs/guide/extension.html')
 }
 // const jumpToFeedback = () => {
-//   window.open('https://console.bytehunter.site/#/feedback')
+//   window.open('https://console.bytehunter.xyz/#/feedback')
 // }
 
 const jumpToQuickStart = () => {
-  window.open('https://console.bytehunter.site/#/quick_start')
+  window.open('https://console.bytehunter.xyz/#/quick_start')
 }
 
 const sendMsgToAI = (msg) => {
