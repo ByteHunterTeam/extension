@@ -72,12 +72,20 @@ const handleSuspiciousExtension = (extensionInfo) => {
         ids.push(item.id)
     })
     const msg = {
-        "type": 5,
-        "risk_level": 3,
-        "method": '',
-        "data": {
-            "id": ids
-        }
+        "risk_level": 3, //1、低风险 2、警告3、高风险
+        "method": "",
+        "network":"",
+        "gas_fee": "",
+        "record_id": "",
+        "components": [
+            {
+                module: 'tip',
+                data: {
+                    type: 3,
+                    value: chrome.i18n.getMessage('riskExtension') + ': ' + ids,
+                }
+            }
+        ]
     }
 
     chrome.windows.create({
@@ -193,10 +201,20 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
 
         if (malice) {
             const msg = {
-                "type": 6,
-                "risk_level": 3,
-                "method": '',
-                "data": {}
+                "risk_level": 3, //1、低风险 2、警告3、高风险
+                "method": "",
+                "network":"",
+                "gas_fee": "",
+                "record_id": "",
+                "components": [
+                    {
+                        module: 'tip',
+                        data: {
+                            type: 3,
+                            value: chrome.i18n.getMessage('phishingWebsite'),
+                        }
+                    }
+                ]
             }
 
             chrome.windows.create({
@@ -209,7 +227,7 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
             }, (window) => {
                 chrome.storage.local.set({
                     'window_id': {'id': window.id, 'uuid': crypto.randomUUID()},
-                    'detective_website': JSON.stringify(msg)
+                    'detective_website': msg
                 })
             })
         }

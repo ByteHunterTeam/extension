@@ -67,7 +67,7 @@
           <a-tag color="#0DA5AA" v-if="netMap.hasOwnProperty(params.network)">
             <img :src="netMap[params.network].icon" width="16"/>
             <span class="font-bold pl-1">{{ netMap[params.network].name }} Chain</span></a-tag>
-          <a-tag color="#165dff" class="mx-2" v-if="![5,6].includes(params.type)">{{ params.method }}</a-tag>
+          <a-tag color="#165dff" class="mx-2" v-if="![5,6].includes(params.type) && params.method">{{ params.method }}</a-tag>
           <a-tooltip content="gas" v-if="params.gas_fee">
             <a-tag color="#ff5722" class="mt-1">
               <template #icon>
@@ -268,7 +268,7 @@ onMounted(() => {
 
   chrome.storage.local.get('detective_website').then(res => {
     if (res.detective_website && res.detective_website !== "") {
-      params.value = JSON.parse(res.detective_website)
+      params.value = res.detective_website
       console.log("res-website", params.value)
       chrome.storage.local.set({"detective_website": ""})
       loading.value = false
