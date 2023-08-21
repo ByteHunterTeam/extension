@@ -319,9 +319,9 @@ document.onmouseup = function (e) {
 
     if (e.target.nodeName === 'LABEL' && e.target.htmlFor.indexOf("bytehunter-radio") !== -1) {
         if (e.target.role === 'wallet') {
-            window.open(`https://console.bytehunter.xyz/#/address?address=${e.target.title.toLowerCase()}&network=${e.target.slot}`)
+            window.open(`https://console.bytehunter.xyz/#/address/${e.target.slot}/${e.target.title.toLowerCase()}`)
         } else {
-            window.open(`https://console.bytehunter.xyz/#/result?txhash=${e.target.title.toLowerCase()}&network=${e.target.slot}`)
+            window.open(`https://console.bytehunter.xyz/#/result/${e.target.slot}/${e.target.title.toLowerCase()}`)
         }
         return
     }
