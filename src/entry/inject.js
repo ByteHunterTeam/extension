@@ -163,7 +163,7 @@ if (window.coinbaseWalletExtension && window.coinbaseWalletExtension.request) {
     })
 }
 
-if (window.tokenpocket.ethereum && window.tokenpocket.ethereum.request) {
+if (window.tokenpocket && window.tokenpocket.ethereum && window.tokenpocket.ethereum.request) {
     // console.log('能监听到吗')
     window.tokenpocket.ethereum.on('chainChanged', (res) => {
         // console.log('可以', res)
@@ -293,6 +293,7 @@ const proxyAllEthereumProviders = () => {
     clearInterval(proxyInterval);
 
     if (!isEmpty(window.ethereum)) {
+        // console.log('代理ethereum')
         proxyEthereumProvider(window.ethereum);
     }
 
@@ -303,14 +304,17 @@ const proxyAllEthereumProviders = () => {
 
     // Proxy the window.coinbaseWalletExtension provider if it exists
     else if (!isEmpty(window.coinbaseWalletExtension)) {
+        // console.log('代理coinbase')
         proxyEthereumProvider(window.coinbaseWalletExtension);
     }
 
     else if (!isEmpty(window.okxwallet)) {
+        // console.log('代理okx')
         proxyEthereumProvider(window.okxwallet);
     }
 
-    else if (!isEmpty(window.tokenpocket.ethereum)) {
+    else if (!isEmpty(window.tokenpocket) && !isEmpty(window.tokenpocket.ethereum)) {
+        // console.log('代理tokenpocket')
         proxyEthereumProvider(window.tokenpocket.ethereum);
     }
 
