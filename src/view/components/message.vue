@@ -1,6 +1,6 @@
 <template>
   <div class="bg-white rounded-lg p-4 w-full break-words">
-     <div class="text-black">{{props.data}}</div>
+     <div class="text-black" style="white-space: pre-wrap">{{props.data}}</div>
   </div>
 </template>
 
