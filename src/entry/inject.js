@@ -163,6 +163,14 @@ if (window.coinbaseWalletExtension && window.coinbaseWalletExtension.request) {
     })
 }
 
+if (window.tokenpocket.ethereum && window.tokenpocket.ethereum.request) {
+    // console.log('能监听到吗')
+    window.tokenpocket.ethereum.on('chainChanged', (res) => {
+        // console.log('可以', res)
+        sessionStorage.setItem('network', res)
+    })
+}
+
 const proxyEthereumProvider = (ethereumProvider) => {
     // Only add our proxy once per provider
     if (!ethereumProvider || ethereumProvider.isByteHunter) return;
@@ -300,6 +308,10 @@ const proxyAllEthereumProviders = () => {
 
     else if (!isEmpty(window.okxwallet)) {
         proxyEthereumProvider(window.okxwallet);
+    }
+
+    else if (!isEmpty(window.tokenpocket.ethereum)) {
+        proxyEthereumProvider(window.tokenpocket.ethereum);
     }
 
     // Proxy providers used by Liquality (they have different providers per chain -_-)
