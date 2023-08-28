@@ -315,6 +315,7 @@ const proxyAllEthereumProviders = () => {
 
     else if (!isEmpty(window.tokenpocket) && !isEmpty(window.tokenpocket.ethereum)) {
         // console.log('代理tokenpocket')
+        // console.log('代理tokenpocket')
         proxyEthereumProvider(window.tokenpocket.ethereum);
     }
 
