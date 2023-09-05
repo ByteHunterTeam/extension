@@ -1,10 +1,11 @@
 import {base_url} from "@/consts/consts";
 import {recognize} from "@/entry/api";
+import {nanoid} from "nanoid";
 
-chrome.runtime.onMessage.addListener(async function (msg) {
+chrome.runtime.onMessage.addListener(function (msg) {
     if (msg.type === 'popup') {
-        const params = JSON.stringify(msg.params)
-        chrome.storage.local.set({'params': params})
+        // const params = JSON.stringify(msg.params)
+        // chrome.storage.local.set({'params': params})
         chrome.windows.create({
             url: 'intercept.html',
             type: 'popup',
@@ -97,7 +98,7 @@ const handleSuspiciousExtension = (extensionInfo) => {
         left: 10,
     }, (window) => {
         chrome.storage.local.set({
-            'window_id': {'id': window.id, 'uuid': crypto.randomUUID()},
+            'window_id': {'id': window.id, 'uuid': nanoid()},
             'malicious_extension': msg
         })
     })
@@ -226,7 +227,7 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
                 left: 10,
             }, (window) => {
                 chrome.storage.local.set({
-                    'window_id': {'id': window.id, 'uuid': crypto.randomUUID()},
+                    'window_id': {'id': window.id, 'uuid': nanoid()},
                     'detective_website': msg
                 })
             })

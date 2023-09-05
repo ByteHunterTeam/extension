@@ -1,80 +1,22 @@
 import {RecognizeTransaction} from "@/entry/recognize";
 import {ethErrors} from 'eth-rpc-errors';
 import {isEmpty} from "lodash-es";
+import { nanoid } from 'nanoid'
 
-let networkId = '0x1';
-let proxyInterval;
-sessionStorage.setItem('network', networkId)
+// let proxyInterval;
 const method = ['eth_sendTransaction', 'eth_signTypedData_v4', 'eth_sign', 'personal_sign', 'eth_signTypedData', 'eth_signTypedData_v1', 'eth_signTypedData_v3']
 const supportNetwork = ['0x1', '0x38', '0x89', '0xa4b1', '0xa', '0x5']
 
-async function postEvent(metamaskRequest, ethereumRequestArguments, resolve, reject) {
-    try {
-        let uuid = crypto.randomUUID()
-        const chainId = sessionStorage.getItem('network')
-        let params
-
-        RecognizeTransaction(chainId, ethereumRequestArguments, uuid).then(res => {
-            if (!res) {
-                return
-            }
-            params = res
-            let event = new CustomEvent('ByteHunter-Message', {
-                detail: {
-                    uuid: uuid,
-                    params: res,
-                    type: 1
-                }
-            })
-            window.dispatchEvent(event)
-        })
-
-        let event = new CustomEvent('ByteHunter-Message', {detail: {uuid: uuid, type: 0, params: params}})
-        window.dispatchEvent(event)
-        window.addEventListener(uuid, (event) => {
-            if (event.detail.confirm) {
-                return metamaskRequest({
-                    method: ethereumRequestArguments.method,
-                    params: {
-                        ...(ethereumRequestArguments.params || {}),
-                        fromExtension: true,
-                    },
-                })
-                    .then((data) => resolve(data))
-                    .catch((error) => reject(error));
-            } else if (event.detail.cancel) {
-                reject({
-                    code: 4001,
-                    message:
-                        "MetaMask Tx Signature: User denied transaction signature.",
-                });
-            }
-        }, {once: true})
-    } catch (e) {
-        console.log(e)
-        continueRequest(metamaskRequest, ethereumRequestArguments, resolve, reject, 0)
-    }
-
-}
-
-function continueRequest(metamaskRequest, ethereumRequestArguments, resolve, reject, type) {
+function continueRequest(metamaskRequest, ethereumRequestArguments, resolve, reject) {
     return metamaskRequest({ ...ethereumRequestArguments })
         .then((data) => {
             resolve(data);
-            if (type === 1) {
-                if (data.startsWith('0x')) {
-                    networkId = data;
-                } else {
-                    networkId = '0x' + Number(data).toString(16);
-                }
-                sessionStorage.setItem('network', networkId)
-            }
         })
         .catch((error) => reject(error));
 }
 
 // proxy postMessage
-if (window.postMessage) {
+if (window.postMessage && !isEmpty(window.ethereum)) {
     const postRequest = window.postMessage;
     const customRequest = (data, ...rest) => {
         if (!supportNetwork.includes(sessionStorage.getItem('network'))) {
@@ -92,15 +34,15 @@ if (window.postMessage) {
         ) {
             if (method.includes(data.data.data.method)) {
                 // console.log('拦截postmessage', data.data.data.method)
-                let uuid = crypto.randomUUID()
+                let uuid = nanoid()
                 const chainId = sessionStorage.getItem('network')
-                let params
+                // let params
 
-                RecognizeTransaction(chainId, data.data.data, uuid).then(res => {
+                RecognizeTransaction(chainId, data.data.data, window.ethereum).then(res => {
                     if (!res) {
                         return
                     }
-                    params = res
+                    // params = res
                     let event = new CustomEvent('ByteHunter-Message', {
                         detail: {
                             uuid: uuid,
@@ -111,7 +53,7 @@ if (window.postMessage) {
                     window.dispatchEvent(event)
                 })
 
-                let event = new CustomEvent('ByteHunter-Message', {detail: {uuid: uuid, type: 0, params: params}})
+                let event = new CustomEvent('ByteHunter-Message', {detail: {uuid: uuid, type: 0}})
                 window.dispatchEvent(event)
                 window.addEventListener(uuid, (event) => {
                     if (event.detail.confirm) {
@@ -139,6 +81,10 @@ if (window.postMessage) {
 // network change
 if (window.ethereum && window.ethereum.request) {
     // console.log('能监听到吗')
+    window.ethereum.request({method: 'eth_chainId'}).then(res => {
+        // console.log('network', res)
+        sessionStorage.setItem('network', res)
+    })
     window.ethereum.on('chainChanged', (res) => {
         // console.log('可以', res)
         sessionStorage.setItem('network', res)
@@ -148,6 +94,9 @@ if (window.ethereum && window.ethereum.request) {
 // network change
 if (window.okxwallet && window.okxwallet.request) {
     // console.log('能监听到吗')
+    window.okxwallet.request({method: 'eth_chainId'}).then(res => {
+        sessionStorage.setItem('network', res)
+    })
     window.okxwallet.on('chainChanged', (res) => {
         // console.log('可以', res)
         sessionStorage.setItem('network', res)
@@ -157,6 +106,9 @@ if (window.okxwallet && window.okxwallet.request) {
 // network change
 if (window.coinbaseWalletExtension && window.coinbaseWalletExtension.request) {
     // console.log('能监听到吗')
+    window.coinbaseWalletExtension.request({method: 'eth_chainId'}).then(res => {
+        sessionStorage.setItem('network', res)
+    })
     window.coinbaseWalletExtension.on('chainChanged', (res) => {
         // console.log('可以', res)
         sessionStorage.setItem('network', res)
@@ -165,97 +117,73 @@ if (window.coinbaseWalletExtension && window.coinbaseWalletExtension.request) {
 
 if (window.tokenpocket && window.tokenpocket.ethereum && window.tokenpocket.ethereum.request) {
     // console.log('能监听到吗')
+    window.tokenpocket.ethereum.request({method: 'eth_chainId'}).then(res => {
+        sessionStorage.setItem('network', res)
+    })
     window.tokenpocket.ethereum.on('chainChanged', (res) => {
         // console.log('可以', res)
         sessionStorage.setItem('network', res)
     })
 }
 
-const proxyEthereumProvider = (ethereumProvider) => {
-    // Only add our proxy once per provider
-    if (!ethereumProvider || ethereumProvider.isByteHunter) return;
+// eslint-disable-next-line no-unused-vars
+async function postEvent(metamaskRequest, ethereumRequestArguments, resolve, reject) {
+    try {
+        let uuid = nanoid()
+        const chainId = sessionStorage.getItem('network')
+        // let params
 
-    if (ethereumProvider.request) {
-        const metamaskRequest = ethereumProvider.request;
-        const customRequest = ({ ...ethereumRequestArguments }) => {
-            return new Promise((resolve, reject) => {
-                // console.log('sdfa', ethereumRequestArguments)
-                if (!supportNetwork.includes(sessionStorage.getItem('network'))) {
-                    continueRequest(metamaskRequest, ethereumRequestArguments, resolve, reject, 0)
-                    return;
+        RecognizeTransaction(chainId, ethereumRequestArguments, metamaskRequest).then(res => {
+            if (!res) {
+                return
+            }
+            // params = res
+            let event = new CustomEvent('ByteHunter-Message', {
+                detail: {
+                    uuid: uuid,
+                    params: res,
+                    type: 1
                 }
+            })
+            window.dispatchEvent(event)
+        })
 
-                if (method.includes(ethereumRequestArguments.method)) {
-                    // console.log('拦截到了',ethereumRequestArguments)
-                    postEvent(metamaskRequest, ethereumRequestArguments, resolve, reject).then(() => {})
-                } else if (ethereumRequestArguments.method === 'eth_chainId' || ethereumRequestArguments.method === 'net_version') {
-                    // type为 1 获取chainId，0待定
-                    continueRequest(metamaskRequest, ethereumRequestArguments, resolve, reject, 1)
-                } else {
-                    continueRequest(metamaskRequest, ethereumRequestArguments, resolve, reject, 0)
-                }
-            });
-        };
-
-        ethereumProvider.request = customRequest;
+        let event = new CustomEvent('ByteHunter-Message', {detail: {uuid: uuid, type: 0}})
+        window.dispatchEvent(event)
+        // console.log('request发出')
+        window.addEventListener(uuid, (event) => {
+            if (event.detail.confirm) {
+                return metamaskRequest({
+                    method: ethereumRequestArguments.method,
+                    params: {
+                        ...(ethereumRequestArguments.params || {}),
+                        fromExtension: true,
+                    },
+                })
+                    .then((data) => resolve(data))
+                    .catch((error) => {
+                        console.log('err', error)
+                        reject(error)
+                    });
+            } else if (event.detail.cancel) {
+                reject({
+                    code: 4001,
+                    message:
+                        "MetaMask Tx Signature: User denied transaction signature.",
+                });
+            }
+        }, {once: true})
+    } catch (e) {
+        console.log(e)
+        continueRequest(metamaskRequest, ethereumRequestArguments, resolve, reject, 0)
     }
 
-    ethereumProvider.sendAsync = new Proxy(ethereumProvider.sendAsync, {
-        apply(target, thisArg, argArray) {
-            const [request, callback] = argArray;
-            if (!request) {
-                return Reflect.apply(target, thisArg, argArray);
-            }
+}
 
-            if (!supportNetwork.includes(sessionStorage.getItem('network'))) {
-                return Reflect.apply(target, thisArg, argArray);
-            }
-
-            if (method.includes(request.method)) {
-                // console.log('sendAsync 代理成功')
-                let uuid = crypto.randomUUID()
-                const chainId = sessionStorage.getItem('network')
-                let params
-
-                RecognizeTransaction(chainId, request, uuid).then(res => {
-                    if (!res) {
-                        return
-                    }
-                    params = res
-                    let event = new CustomEvent('ByteHunter-Message', {
-                        detail: {
-                            uuid: uuid,
-                            params: res,
-                            type: 1
-                        }
-                    })
-                    window.dispatchEvent(event)
-                })
-
-                let event = new CustomEvent('ByteHunter-Message', {detail: {uuid: uuid, type: 0, params: params}})
-                window.dispatchEvent(event)
-                window.addEventListener(uuid, (event) => {
-                    if (event.detail.confirm) {
-                        request.params.fromExtension = true;
-                        // console.log(argArray)
-                        return Reflect.apply(target, thisArg, argArray)
-                    } else if (event.detail.cancel) {
-                        const error = ethErrors.provider.userRejectedRequest(
-                            'User denied message signature.'
-                        );
-                        const response = {
-                            id: request?.id,
-                            jsonrpc: '2.0',
-                            error,
-                        };
-                        callback(error, response);
-                    }
-                }, {once: true})
-            } else {
-                return Reflect.apply(target, thisArg, argArray);
-            }
-        }
-    })
+const proxyEthereumProvider = (ethereumProvider) => {
+    // Only add our proxy once per provider
+    // console.log('provider', ethereumProvider)
+    if (!ethereumProvider || ethereumProvider.isByteHunter) return;
 
     ethereumProvider.send = new Proxy(ethereumProvider.send, {
         apply(target, thisArg, argArray) {
@@ -286,11 +214,136 @@ const proxyEthereumProvider = (ethereumProvider) => {
         }
     })
 
+    if (ethereumProvider.request) {
+        const metamaskRequest = ethereumProvider.request;
+        const customRequest = ({ ...ethereumRequestArguments }) => {
+            return new Promise((resolve, reject) => {
+                // console.log('sdfa', ethereumRequestArguments)
+                if (!supportNetwork.includes(sessionStorage.getItem('network'))) {
+                    continueRequest(metamaskRequest, ethereumRequestArguments, resolve, reject)
+                    return;
+                }
+
+                if (method.includes(ethereumRequestArguments.method)) {
+                    // console.log('拦截到了',ethereumRequestArguments)
+                    postEvent(metamaskRequest, ethereumRequestArguments, resolve, reject).then(() => {})
+                }  else {
+                    continueRequest(metamaskRequest, ethereumRequestArguments, resolve, reject)
+                }
+            });
+        };
+
+        ethereumProvider.request = customRequest;
+    }
+
+    // 拦不住okxwallet
+    // ethereumProvider.request = new Proxy(ethereumProvider.request, {
+    //     async apply(target, thisArg, argArray) {
+    //         const [request] = argArray;
+    //         console.log('request', request)
+    //         if (!request) {
+    //             return Reflect.apply(target, thisArg, argArray);
+    //         }
+    //
+    //         if (!supportNetwork.includes(sessionStorage.getItem('network'))) {
+    //             return Reflect.apply(target, thisArg, argArray);
+    //         }
+    //
+    //         if (method.includes(request.method)) {
+    //             console.log('request 代理成功')
+    //             let uuid = nanoid()
+    //             const chainId = sessionStorage.getItem('network')
+    //             // let params
+    //
+    //             const res = await RecognizeTransaction(chainId, request, ethereumProvider)
+    //             if (!res) {
+    //                 return Reflect.apply(target, thisArg, argArray);
+    //             }
+    //             // params = res
+    //             window.dispatchEvent(new CustomEvent('ByteHunter-Message', {
+    //                     detail: {
+    //                         uuid: uuid,
+    //                         params: res,
+    //                         type: 1
+    //                     }
+    //                 }))
+    //             window.dispatchEvent(new CustomEvent('ByteHunter-Message', {detail: {uuid: uuid, type: 0}}))
+    //             window.addEventListener(uuid, (event) => {
+    //                 console.log('开始监听')
+    //                 if (event.detail.confirm) {
+    //                     request.params.fromExtension = true;
+    //                 } else if (event.detail.cancel) {
+    //                     return ethErrors.provider.userRejectedRequest(
+    //                         'User denied message signature.'
+    //                     );
+    //                 }
+    //             })
+    //         }
+    //         return Reflect.apply(target, thisArg, argArray)
+    //     }
+    // })
+
+    ethereumProvider.sendAsync = new Proxy(ethereumProvider.sendAsync, {
+        apply(target, thisArg, argArray) {
+            const [request, callback] = argArray;
+            if (!request) {
+                return Reflect.apply(target, thisArg, argArray);
+            }
+
+            if (!supportNetwork.includes(sessionStorage.getItem('network'))) {
+                return Reflect.apply(target, thisArg, argArray);
+            }
+
+            // console.log('sendAsync 代理成功')
+
+            if (method.includes(request.method)) {
+                let uuid = nanoid();
+                const chainId = sessionStorage.getItem('network')
+
+                RecognizeTransaction(chainId, request, ethereumProvider).then(res => {
+                    if (!res) {
+                        return Reflect.apply(target, thisArg, argArray)
+                    }
+                    let event = new CustomEvent('ByteHunter-Message', {
+                        detail: {
+                            uuid: uuid,
+                            params: res,
+                            type: 1
+                        }
+                    })
+                    window.dispatchEvent(event)
+                })
+
+                let event = new CustomEvent('ByteHunter-Message', {detail: {uuid: uuid, type: 0}})
+                window.dispatchEvent(event)
+                window.addEventListener(uuid, (event) => {
+                    if (event.detail.confirm) {
+                        request.params.fromExtension = true;
+                        // console.log(argArray)
+                        return Reflect.apply(target, thisArg, argArray)
+                    } else if (event.detail.cancel) {
+                        const error = ethErrors.provider.userRejectedRequest(
+                            'User denied message signature.'
+                        );
+                        const response = {
+                            id: request?.id,
+                            jsonrpc: '2.0',
+                            error,
+                        };
+                        callback(error, response);
+                    }
+                }, {once: true})
+            } else {
+                return Reflect.apply(target, thisArg, argArray);
+            }
+        }
+    })
+
     ethereumProvider.isByteHunter = true;
 };
 
 const proxyAllEthereumProviders = () => {
-    clearInterval(proxyInterval);
+    // clearInterval(proxyInterval);
 
     if (!isEmpty(window.ethereum)) {
         // console.log('代理ethereum')
@@ -324,7 +377,7 @@ const proxyAllEthereumProviders = () => {
     // liqualityProviders.forEach((name) => proxyEthereumProvider(window[name]));
 }
 
-proxyInterval = setInterval(proxyAllEthereumProviders, 100);
+// proxyInterval = setInterval(proxyAllEthereumProviders, 100);
 proxyAllEthereumProviders();
 
 const style = document.createElement('style');
