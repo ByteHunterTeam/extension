@@ -22,7 +22,7 @@ function recognize(url, params, uuid, chainId) {
         .then(async response => {
             let responseObj = await response.json()
             if (responseObj.code === 200) {
-                responseObj.data.network = chainId
+                responseObj.data.network = chainId.toString()
             }
             const text = JSON.stringify(responseObj)
             console.log("responseObj", responseObj)

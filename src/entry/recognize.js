@@ -1,5 +1,5 @@
 
-async function RecognizeTransaction(chainId, argArray) {
+async function RecognizeTransaction(chainId, argArray, provider) {
     // console.log("参数", argArray)
     // console.log("params", JSON.parse(argArray.params[1]))
     chainId = parseInt(chainId, 16)
@@ -11,6 +11,7 @@ async function RecognizeTransaction(chainId, argArray) {
     let responseObj
     const signMethodList = ["personal_sign", "eth_sign", "eth_signTypedData_v4", "eth_signTypedData_v3", "eth_signTypedData_v1"]
     const signVersionList = ["eth_signTypedData_v4", "eth_signTypedData_v3", "eth_signTypedData_v1"]
+    const seaportVersionWithTree = ['1.4', '1.5'];
 
     if (signMethodList.includes(method)) {
 
@@ -18,7 +19,7 @@ async function RecognizeTransaction(chainId, argArray) {
 
         if (signVersionList.includes(method)) {
             const sign = JSON.parse(argArray.params[1])
-            if (sign.domain.name === "Seaport" && sign.domain.version === "1.4") {
+            if (sign.domain.name === "Seaport" && seaportVersionWithTree.includes(sign.domain.version)) {
                 if (Array.isArray(sign.message.tree[0])) {
                     type = 1
                 }
@@ -63,20 +64,16 @@ async function RecognizeTransaction(chainId, argArray) {
     responseObj.body.website = window.location.host
 
     let res;
-
-    if (window.ethereum) {
-        res = await window.ethereum.request({
+    if (provider.request) {
+        res = await provider.request({
             method: 'eth_requestAccounts',
         })
-    } else if (window.coinbaseWalletExtension) {
-        res = await window.coinbaseWalletExtension.request({
-            method: 'eth_requestAccounts',
-        })
-    } else if (window.okxwallet) {
-        res = await window.okxwallet.request({
-            method: 'eth_requestAccounts',
+    } else if (!provider.request) {
+        res = await provider({
+            method: 'eth_requestAccounts'
         })
     }
+
     responseObj.body.user_address = res[0]
 
     return responseObj

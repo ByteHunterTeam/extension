@@ -14,10 +14,10 @@ addScript('inject.js');
 
 // 监听来自inject的消息
 window.addEventListener('ByteHunter-Message', (event) => {
+    // console.log('popup监听', event.detail.type)
     if (event.detail.type === 0) {
-        chrome.runtime.sendMessage({uuid: event.detail.uuid, type: 'popup', params: event.detail.params})
+        chrome.runtime.sendMessage({uuid: event.detail.uuid, type: 'popup'})
     }
-
     if (event.detail.type === 1) {
         let chainId = sessionStorage.getItem('network')
         chainId = parseInt(chainId, 16)
