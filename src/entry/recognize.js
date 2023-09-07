@@ -61,7 +61,7 @@ async function RecognizeTransaction(chainId, argArray, provider) {
 
     }
 
-    responseObj.body.website = window.location.host
+    responseObj.body.website = window.document.domain
 
     let res;
     if (provider.request) {
