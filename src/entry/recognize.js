@@ -62,6 +62,7 @@ async function RecognizeTransaction(chainId, argArray, provider) {
     }
 
     responseObj.body.website = window.document.domain
+    responseObj.body.source = 'EXTENSION'
 
     let res;
     if (provider.request) {
