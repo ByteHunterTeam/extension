@@ -270,5 +270,9 @@
   "contract_info_title": {
     "message": "Contract",
     "description": ""
+  },
+  "risk_list": {
+    "message": "Risk List",
+    "description": ""
   }
 }

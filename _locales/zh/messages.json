@@ -270,5 +270,9 @@
   "contract_info_title": {
     "message": "合约信息",
     "description": ""
+  },
+  "risk_list": {
+    "message": "风险列表",
+    "description": ""
   }
 }
